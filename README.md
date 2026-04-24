@@ -23,7 +23,7 @@ It gives each service its own database file, keeps everything on one persistent 
 ## Quick start
 
 ```bash
-git clone https://github.com/0xdps/sqlite-hub.git
+git clone https://github.com/0xdps/mesahub-mono.git
 cd sqlite-hub
 npm install
 cp .env.example .env

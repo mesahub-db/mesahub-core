@@ -25,7 +25,7 @@ jobs:
       - name: Checkout sqlite-hub monorepo
         uses: actions/checkout@v4
         with:
-          repository: 0xdps/sqlite-hub
+          repository: 0xdps/mesahub-mono
           token: ${{ secrets.GH_PAT }}
           submodules: recursive
           fetch-depth: 0

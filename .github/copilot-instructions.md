@@ -20,7 +20,7 @@ The **self-hosted SQLite service** deployed to Railway. It owns:
 ## Go server conventions (`server/`)
 
 ### Module path
-`github.com/0xdps/sqlite-hub/server`
+`github.com/0xdps/mesahub-core`
 
 ### Package layout
 | Package | Purpose |
