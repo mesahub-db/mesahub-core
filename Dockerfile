@@ -7,7 +7,6 @@ RUN apk add --no-cache python3 make g++
 
 WORKDIR /app/admin
 COPY core/admin/package.json core/admin/pnpm-lock.yaml ./
-COPY packages/ /packages/
 RUN corepack enable pnpm && pnpm install --frozen-lockfile
 
 COPY core/admin/ .
@@ -44,7 +43,6 @@ RUN apk add --no-cache curl python3 make g++ && \
 
 WORKDIR /app
 COPY core/admin/package.json core/admin/pnpm-lock.yaml ./
-COPY packages/ /packages/
 RUN pnpm install --frozen-lockfile
 
 COPY core/admin/ .
@@ -85,7 +83,6 @@ RUN mkdir -p /data/files/blobs
 COPY --from=go-builder /app/server/mesahub-server ./server/mesahub-server
 
 COPY core/admin/package.json core/admin/pnpm-lock.yaml ./dashboard/
-COPY packages/ /packages/
 RUN npm install -g pnpm && cd dashboard && pnpm install
 
 COPY core/admin/ ./dashboard/
