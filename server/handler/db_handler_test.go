@@ -451,9 +451,9 @@ func TestDBHandler_DeletedDBAction_HardDelete(t *testing.T) {
 	if len(rows) == 0 {
 		t.Fatal("expected 1 soft-deleted row")
 	}
-	deletedName := rows[0].Name
+	deletedSlug := rows[0].Slug
 
-	code, resp := envFire(t, router, http.MethodPost, "/api/db/deleted/"+deletedName, map[string]any{
+	code, resp := envFire(t, router, http.MethodPost, "/api/db/deleted/"+deletedSlug, map[string]any{
 		"action": "hard_delete",
 	})
 	if code != http.StatusOK {
@@ -484,9 +484,9 @@ func TestDBHandler_DeletedDBAction_Restore(t *testing.T) {
 	if len(rows) == 0 {
 		t.Fatal("expected 1 soft-deleted row")
 	}
-	deletedName := rows[0].Name
+	deletedSlug := rows[0].Slug
 
-	code, resp := envFire(t, router, http.MethodPost, "/api/db/deleted/"+deletedName, map[string]any{
+	code, resp := envFire(t, router, http.MethodPost, "/api/db/deleted/"+deletedSlug, map[string]any{
 		"action": "restore",
 	})
 	if code != http.StatusOK {
@@ -511,9 +511,9 @@ func TestDBHandler_DeletedDBAction_InvalidAction(t *testing.T) {
 	if len(rows) == 0 {
 		t.Fatal("need 1 deleted row")
 	}
-	deletedName := rows[0].Name
+	deletedSlug := rows[0].Slug
 
-	code, _ := envFire(t, router, http.MethodPost, "/api/db/deleted/"+deletedName, map[string]any{
+	code, _ := envFire(t, router, http.MethodPost, "/api/db/deleted/"+deletedSlug, map[string]any{
 		"action": "teleport",
 	})
 	if code != http.StatusBadRequest {

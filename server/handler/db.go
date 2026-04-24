@@ -61,8 +61,11 @@ func (h *DBHandler) CreateDB(w http.ResponseWriter, r *http.Request) {
 	if !decodeJSON(w, r, &body) {
 		return
 	}
-	if body.Name == "" || body.Slug == "" || body.Owner == "" {
-		ErrorJSON(w, http.StatusBadRequest, "name, slug, and owner are required")
+	if body.Slug == "" {
+		body.Slug = body.Name
+	}
+	if body.Name == "" || body.Owner == "" {
+		ErrorJSON(w, http.StatusBadRequest, "name and owner are required")
 		return
 	}
 	if body.Source == "" {
