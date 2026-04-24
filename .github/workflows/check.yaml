@@ -8,33 +8,33 @@ on:
   workflow_dispatch:
 
 jobs:
-  typecheck-and-build:
-    name: Typecheck & Build
+  build:
+    name: Go Build & Vet
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
+      - name: Checkout mesahub-mono
         uses: actions/checkout@v4
-
-      - uses: actions/setup-node@v3
         with:
-          node-version: 20
+          repository: 0xdps/mesahub-mono
+          token: ${{ secrets.GH_PAT }}
+          submodules: recursive
+          fetch-depth: 0
 
-      - name: Install just
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version-file: core/server/go.mod
+          cache-dependency-path: |
+            core/server/go.sum
+            cloud/server/go.sum
+
+      - name: Build core server
         run: |
-          sudo apt-get update
-          sudo apt-get install -y just
+          CGO_ENABLED=1 go build -C core/server ./...
 
-      - name: Install dependencies
-        run: npm install
-
-      - name: Prepare env for compose validation
-        run: cp .env.example .env
-
-      - name: Validate runtime contract
-        run: just contract
-
-      - name: Check
-        run: just check
+      - name: Vet
+        run: |
+          go vet -C core/server ./...
 
       - name: Log success
         run: echo "✅ Success!"
