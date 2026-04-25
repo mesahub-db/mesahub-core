@@ -4,7 +4,7 @@ import { FILES_ENABLED } from "@/lib/features";
 import { useState, useMemo, useTransition } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import type { DbRecord, BucketRecord, MetricsData } from "./page";
+import type { DbRecord, BucketRecord, MetricsData, SystemDbRecord } from "./page";
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
 
@@ -604,17 +604,7 @@ function BucketList({
 
 // ─── System DB list ───────────────────────────────────────────────────────────
 
-const SYSTEM_DESCRIPTIONS: Record<string, string> = {
-  store: "All database records and metadata for this instance",
-};
-
-const SYSTEM_DB_NAMES = ["store", "accounts"];
-
-function SystemList({ dbs }: { dbs: DbRecord[] }) {
-  const dbMap = new Map(dbs.map((d) => [d.name, d]));
-  // Always show both known system DBs, plus any extra ones the API returned
-  const extraNames = dbs.map((d) => d.name).filter((n) => !SYSTEM_DB_NAMES.includes(n));
-  const allNames = [...SYSTEM_DB_NAMES, ...extraNames];
+function SystemList({ dbs }: { dbs: SystemDbRecord[] }) {
 
   return (
     <div className="overflow-hidden">
@@ -631,14 +621,14 @@ function SystemList({ dbs }: { dbs: DbRecord[] }) {
           </tr>
         </thead>
         <tbody>
-          {allNames.map((name) => (
+          {dbs.map((db) => (
             <tr
-              key={name}
+              key={db.name}
               className="border-b border-zinc-900 hover:bg-zinc-900/60 transition-colors"
             >
               <td className="px-4 py-3">
                 <div className="flex items-center gap-2">
-                  <span className="font-mono text-sm text-white">{name}</span>
+                  <span className="font-mono text-sm text-white">{db.name}</span>
                   <span className="inline-block px-1.5 py-0.5 rounded text-[10px] font-semibold bg-amber-950 text-amber-400 border border-amber-900">
                     system
                   </span>
@@ -646,13 +636,13 @@ function SystemList({ dbs }: { dbs: DbRecord[] }) {
               </td>
               <td className="px-4 py-3">
                 <span className="text-zinc-500 text-xs">
-                  {SYSTEM_DESCRIPTIONS[name] ?? "System database"}
+                  {db.description || "System database"}
                 </span>
               </td>
               <td className="px-4 py-3">
                 <div className="flex justify-end">
                   <Link
-                    href={`/db/system/${name}`}
+                    href={`/db/system/${db.name}`}
                     className="text-xs text-zinc-300 hover:text-white transition-colors font-medium"
                   >
                     Browse →
@@ -723,7 +713,7 @@ function TabBar({
 
 interface HomeClientProps {
   userDbs: DbRecord[];
-  systemDbs: DbRecord[];
+  systemDbs: SystemDbRecord[];
   buckets: BucketRecord[];
   metrics: MetricsData | null;
 }
@@ -818,7 +808,7 @@ export function HomeClient({
                 onChange={handleTabChange}
                 dbCount={userDbs.length}
                 bucketCount={FILES_ENABLED ? buckets.length : 0}
-                systemCount={Math.max(systemDbs.length, SYSTEM_DB_NAMES.length)}
+                systemCount={systemDbs.length}
               />
 
               <div className="flex items-center gap-2">

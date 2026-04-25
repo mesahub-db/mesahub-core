@@ -29,13 +29,43 @@ export interface MetricsData {
   volume_used_percent: number;
 }
 
-const SYSTEM_DBS = new Set(["store", "accounts"]);
+export interface SystemDbRecord {
+  name: string;
+  label: string;
+  description: string;
+  size_bytes: number;
+}
+
+let systemDbCache: { expiresAt: number; value: SystemDbRecord[] } | null = null;
+
+async function getSystemDbs(): Promise<SystemDbRecord[]> {
+  if (systemDbCache && Date.now() < systemDbCache.expiresAt) {
+    return systemDbCache.value;
+  }
+
+  const res = await goFetchAdmin("/api/system/dbs").catch(() => null);
+  const raw: unknown[] = res?.ok ? await res.json().catch(() => []) : [];
+  const value: SystemDbRecord[] = (raw as Record<string, unknown>[]).map((r) => ({
+    name: String(r.name ?? ""),
+    label: String(r.label ?? ""),
+    description: String(r.description ?? "System database"),
+    size_bytes: Number(r.size_bytes ?? 0),
+  }));
+
+  systemDbCache = {
+    value,
+    expiresAt: Date.now() + 60_000,
+  };
+
+  return value;
+}
 
 export default async function DashboardPage() {
-  const [dbsRes, metricsRes, bucketsRes] = await Promise.all([
+  const [dbsRes, metricsRes, bucketsRes, systemDbs] = await Promise.all([
     goFetchAdmin("/api/db").catch(() => null),
     goFetchAdmin("/api/metrics").catch(() => null),
     FILES_ENABLED ? goFetchAdmin("/api/buckets").catch(() => null) : Promise.resolve(null),
+    getSystemDbs(),
   ]);
 
   const allDbs: DbRecord[] = dbsRes?.ok ? await dbsRes.json().catch(() => []) : [];
@@ -54,8 +84,8 @@ export default async function DashboardPage() {
     created_at: String(r.created_at ?? ""),
   }));
 
-  const userDbs = allDbs.filter((d) => !SYSTEM_DBS.has(d.name));
-  const systemDbs = allDbs.filter((d) => SYSTEM_DBS.has(d.name));
+  const systemDbNames = new Set(systemDbs.map((d) => d.name));
+  const userDbs = allDbs.filter((d) => !systemDbNames.has(d.name));
 
   return (
     <HomeClient

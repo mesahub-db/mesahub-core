@@ -1,5 +1,5 @@
-// Package handler — system.go exposes access to internal system databases
-// (store.db) via admin-only HTTP endpoints.
+// Package handler — system.go exposes access to the internal store.db
+// database via admin-only HTTP endpoints.
 //
 // Routes (all require RequireAdmin middleware):
 //
@@ -79,7 +79,7 @@ func (h *SystemHandler) ListSystemDBs(w http.ResponseWriter, r *http.Request) {
 	for _, name := range systemDBNames {
 		path := h.systemDBPath(name)
 		if _, err := os.Stat(path); err != nil {
-			// File doesn't exist (e.g. control.db in standalone mode).
+			// File doesn't exist yet (e.g. fresh standalone data dir).
 			continue
 		}
 		size := sysutil.FileSizeBytes(path)
