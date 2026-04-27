@@ -217,16 +217,16 @@ func main() {
 		r.Get("/{dbName}/file/{id}", filesH.FileShortlink)
 	}
 
-	// Legacy /api/v1/* prefix strip — forward to the same router without the prefix.
-	// This provides backwards compatibility for older clients that used /api/v1/.
+	// Legacy /api/v1/* prefix strip — rewrite to /v1/* so old clients still work.
+	// /api/v1/query/{ref} → /v1/query/{ref}  (strips the /api prefix, keeps /v1/)
 	r.Mount("/api/v1", http.HandlerFunc(func(w http.ResponseWriter, req *http.Request) {
 		p := req.URL.Path
-		if len(p) >= 7 {
-			p = "/api" + p[7:] // strip "/api/v1"
+		if len(p) >= 4 {
+			p = p[4:] // strip "/api" → leaves "/v1/..."
 		}
 		req.URL.Path = p
 		if req.URL.RawPath != "" {
-			req.URL.RawPath = "/api" + req.URL.RawPath[7:]
+			req.URL.RawPath = req.URL.RawPath[4:]
 		}
 		r.ServeHTTP(w, req)
 	}))

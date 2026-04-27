@@ -7,10 +7,27 @@ PORT=${PORT:-80}
 GO_PORT=3000
 NEXTJS_PORT=3001
 
-# Optional: set both to enable split-domain routing in control mode.
-# Example: API_HOSTNAME=api.yourdomain.com  ADMIN_HOSTNAME=admin.yourdomain.com
-API_HOSTNAME="${API_HOSTNAME:-}"
-ADMIN_HOSTNAME="${ADMIN_HOSTNAME:-}"
+# Split-domain routing — set all three to enable named-host rules in control mode.
+# DOMAIN          e.g. mesahub.app
+# API_HOST        single subdomain prefix, e.g. api   → api.mesahub.app
+# ADMIN_HOSTS     comma-separated prefixes,  e.g. admin,manage
+#                  → admin.mesahub.app manage.mesahub.app
+DOMAIN="${DOMAIN:-}"
+API_HOST="${API_HOST:-}"
+ADMIN_HOSTS="${ADMIN_HOSTS:-}"
+
+# Build fully-qualified hostnames from the parts above.
+API_FULL_HOSTNAME=""
+if [ -n "$API_HOST" ] && [ -n "$DOMAIN" ]; then
+    API_FULL_HOSTNAME="${API_HOST}.${DOMAIN}"
+fi
+ADMIN_HOST_LIST=""
+if [ -n "$ADMIN_HOSTS" ] && [ -n "$DOMAIN" ]; then
+    for _subdomain in $(echo "$ADMIN_HOSTS" | tr ',' ' '); do
+        ADMIN_HOST_LIST="$ADMIN_HOST_LIST ${_subdomain}.${DOMAIN}"
+    done
+    ADMIN_HOST_LIST="${ADMIN_HOST_LIST# }"  # trim leading space
+fi
 
 echo "PORT=$PORT (Caddy)  Go=:$GO_PORT  Next.js=:$NEXTJS_PORT"
 
@@ -67,7 +84,9 @@ if [ "$NODE_ENV" = "development" ]; then
     rewrite @dslash /{http.regexp.dslash.1}
 
     # SDK data-plane routes (shs_ API key, no session cookie) → Go directly.
-    # These are control-mode routes that Next.js middleware cannot authenticate.
+    handle /v1/* {
+        reverse_proxy localhost:${GO_PORT}
+    }
     handle /api/exec/* {
         reverse_proxy localhost:${GO_PORT}
     }
@@ -193,19 +212,24 @@ else
 EOF
 
     # ── Named-host routing (only when split domains are configured) ───────────
-    if [ "$CONTROL_ENABLED_VAL" = "true" ] && [ -n "$API_HOSTNAME" ] && [ -n "$ADMIN_HOSTNAME" ]; then
+    if [ "$CONTROL_ENABLED_VAL" = "true" ] && [ -n "$API_FULL_HOSTNAME" ] && [ -n "$ADMIN_HOST_LIST" ]; then
         cat >> /tmp/Caddyfile <<EOF
 
-    # --- ${API_HOSTNAME} -> Go API server ---
-    # All callers (SDK, control plane) omit the /api prefix — prepend it here.
-    @api_host host ${API_HOSTNAME}
+    # --- ${API_FULL_HOSTNAME} -> Go API server only ---
+    # SDK clients send /v1/* directly; admin API calls send /api/*.
+    # Never proxies to Next.js — browsers get a plain 200 at the root.
+    @api_host host ${API_FULL_HOSTNAME}
     handle @api_host {
-        rewrite * /api{uri}
-        reverse_proxy localhost:${GO_PORT}
+        handle / {
+            respond "OK" 200
+        }
+        handle {
+            reverse_proxy localhost:${GO_PORT}
+        }
     }
 
-    # --- ${ADMIN_HOSTNAME} -> Next.js admin UI ---
-    @admin_host host ${ADMIN_HOSTNAME}
+    # --- ${ADMIN_HOST_LIST} -> Next.js admin UI ---
+    @admin_host host ${ADMIN_HOST_LIST}
     handle @admin_host {
         reverse_proxy localhost:${NEXTJS_PORT}
     }
@@ -216,6 +240,9 @@ EOF
     cat >> /tmp/Caddyfile <<EOF
 
     # SDK data-plane routes → Go directly (bypasses Next.js auth middleware).
+    handle /v1/* {
+        reverse_proxy localhost:${GO_PORT}
+    }
     handle /api/exec/* {
         reverse_proxy localhost:${GO_PORT}
     }
