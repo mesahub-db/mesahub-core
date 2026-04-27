@@ -265,6 +265,14 @@ EOF
         reverse_proxy localhost:${GO_PORT}
     }
 
+    # Next.js static assets — content-hashed filenames, serve directly from
+    # disk so Node.js is never involved. Safe to cache for 1 year.
+    handle /_next/static/* {
+        root * /app/dashboard/.next/standalone/.next
+        file_server
+        header Cache-Control "public, max-age=31536000, immutable"
+    }
+
     # Everything else (dashboard UI, /api/db/*, auth routes) → Next.js
     handle {
         reverse_proxy localhost:${NEXTJS_PORT}

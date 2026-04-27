@@ -16,6 +16,20 @@ const nextConfig = {
   env: {
     NEXT_PUBLIC_STUDIO_VERSION: pkg.version,
   },
+  async headers() {
+    return [
+      {
+        // Content-hashed chunks — immutable, cache for 1 year
+        source: '/_next/static/:path*',
+        headers: [{ key: 'Cache-Control', value: 'public, max-age=31536000, immutable' }],
+      },
+      {
+        // Public folder assets (favicon, icons, etc.)
+        source: '/:file(favicon.ico|robots.txt|sitemap.xml|sitemap.xsl)',
+        headers: [{ key: 'Cache-Control', value: 'public, max-age=86400, stale-while-revalidate=3600' }],
+      },
+    ]
+  },
 };
 
 module.exports = { ...nextConfig, output: "standalone" };
