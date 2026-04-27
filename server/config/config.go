@@ -22,14 +22,12 @@ type Config struct {
 	CORSOrigins string
 
 	// Operational limits
-	MaxVolumeUsagePct       int
-	MaxSQLLength            int
-	MaxSQLBindings          int
-	MaxWriteQueueDepth      int
-	FileMaxSizeBytes        int64
-	EnableFileProxyDelivery bool
-	EnableFiles             bool
-	LogLevel                string
+	MaxVolumeUsagePct  int
+	MaxSQLLength       int
+	MaxSQLBindings     int
+	MaxWriteQueueDepth int
+	FileMaxSizeBytes   int64
+	LogLevel           string
 
 	// EnableSystemDBWrite allows admin users to execute write statements
 	// against system databases (store.db) via POST /api/system/db/{name}/exec.
@@ -39,21 +37,19 @@ type Config struct {
 
 func Load() (*Config, error) {
 	cfg := &Config{
-		Port:                    intEnv("PORT", 3000),
-		DataPath:                strEnv("DATA_PATH", "/data"),
-		AdminToken:              os.Getenv("ADMIN_TOKEN"),
-		SessionSecret:           os.Getenv("SESSION_SECRET"),
-		RedisURL:                os.Getenv("REDIS_URL"),
-		CORSOrigins:             strEnv("CORS_ALLOWED_ORIGINS", ""),
-		MaxVolumeUsagePct:       intEnv("MAX_VOLUME_USAGE_PERCENT", 85),
-		MaxSQLLength:            intEnv("MAX_SQL_LENGTH", 100_000),
-		MaxSQLBindings:          intEnv("MAX_SQL_BINDINGS", 5000),
-		MaxWriteQueueDepth:      intEnv("MAX_WRITE_QUEUE_DEPTH", 256),
-		FileMaxSizeBytes:        int64(intEnv("FILE_MAX_SIZE_BYTES", 104_857_600)), // 100 MB
-		EnableFileProxyDelivery: strEnv("ENABLE_FILE_PROXY_DELIVERY", "true") != "false",
-		EnableFiles:             strEnv("ENABLE_FILE_STORAGE", "false") == "true",
-		LogLevel:                strEnv("LOG_LEVEL", "info"),
-		EnableSystemDBWrite:     strEnv("ENABLE_SYSTEM_DB_WRITE", "false") == "true",
+		Port:                intEnv("PORT", 3000),
+		DataPath:            strEnv("DATA_PATH", "/data"),
+		AdminToken:          os.Getenv("ADMIN_TOKEN"),
+		SessionSecret:       os.Getenv("SESSION_SECRET"),
+		RedisURL:            os.Getenv("REDIS_URL"),
+		CORSOrigins:         strEnv("CORS_ALLOWED_ORIGINS", ""),
+		MaxVolumeUsagePct:   intEnv("MAX_VOLUME_USAGE_PERCENT", 85),
+		MaxSQLLength:        intEnv("MAX_SQL_LENGTH", 100_000),
+		MaxSQLBindings:      intEnv("MAX_SQL_BINDINGS", 5000),
+		MaxWriteQueueDepth:  intEnv("MAX_WRITE_QUEUE_DEPTH", 256),
+		FileMaxSizeBytes:    int64(intEnv("FILE_MAX_SIZE_BYTES", 104_857_600)), // 100 MB
+		LogLevel:            strEnv("LOG_LEVEL", "info"),
+		EnableSystemDBWrite: strEnv("ENABLE_SYSTEM_DB_WRITE", "false") == "true",
 	}
 
 	if cfg.AdminToken == "" {

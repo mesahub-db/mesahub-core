@@ -6,7 +6,6 @@ import (
 	"fmt"
 	"io"
 	"net/http"
-	"os"
 	"path/filepath"
 	"strconv"
 	"strings"
@@ -235,28 +234,8 @@ func (h *FilesHandler) serveFile(w http.ResponseWriter, r *http.Request, headOnl
 	// X-Sendfile delivery — off-load to Caddy/nginx.
 	// Must be a relative path (filename only): Caddy resolves it against the
 	// configured root (/data/files/blobs). An absolute path doubles the prefix.
-	if h.cfg.EnableFileProxyDelivery {
-		w.Header().Set("X-Sendfile", "/"+filepath.Base(stored.StoragePath))
-		w.WriteHeader(http.StatusOK)
-		return
-	}
-
-	// Stream blob directly.
-	cleanPath := filepath.Clean(stored.StoragePath)
-	if !strings.HasPrefix(cleanPath, filepath.Clean(h.cfg.DataPath)+string(filepath.Separator)) {
-		ErrorJSON(w, http.StatusInternalServerError, "file path error")
-		return
-	}
-	f, err := os.Open(cleanPath)
-	if err != nil {
-		ErrorJSON(w, http.StatusInternalServerError, "file unavailable")
-		return
-	}
-	defer f.Close()
+	w.Header().Set("X-Sendfile", "/"+filepath.Base(stored.StoragePath))
 	w.WriteHeader(http.StatusOK)
-	if _, err := io.Copy(w, f); err != nil {
-		log.Error().Err(err).Str("id", id).Msg("[files] stream error")
-	}
 }
 
 // DeleteFile handles DELETE /api/db/:name/files/:id.
@@ -510,26 +489,8 @@ func (h *FilesHandler) FileShortlink(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Length", strconv.FormatInt(stored.SizeBytes, 10))
 	w.Header().Set("Content-Disposition",
 		disp+"; filename=\""+sanitizeHeaderFilename(stored.Filename)+`"`)
-
-	if h.cfg.EnableFileProxyDelivery {
-		w.Header().Set("X-Sendfile", "/"+filepath.Base(stored.StoragePath))
-		w.WriteHeader(http.StatusOK)
-		return
-	}
-
-	cleanPath2 := filepath.Clean(stored.StoragePath)
-	if !strings.HasPrefix(cleanPath2, filepath.Clean(h.cfg.DataPath)+string(filepath.Separator)) {
-		ErrorJSON(w, http.StatusInternalServerError, "file path error")
-		return
-	}
-	f, err := os.Open(cleanPath2)
-	if err != nil {
-		ErrorJSON(w, http.StatusInternalServerError, "file unavailable")
-		return
-	}
-	defer f.Close()
+	w.Header().Set("X-Sendfile", "/"+filepath.Base(stored.StoragePath))
 	w.WriteHeader(http.StatusOK)
-	_, _ = io.Copy(w, f)
 }
 
 // fileRecord converts a StoredFile into the wire-format map sent to clients.

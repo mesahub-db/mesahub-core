@@ -177,12 +177,10 @@ func main() {
 		r.Get("/api/buckets", bucketAdminH.ListBuckets)
 		r.Post("/api/buckets", bucketAdminH.CreateBucket)
 		r.Delete("/api/buckets/{name}", bucketAdminH.DeleteBucket)
-		if cfg.EnableFiles {
-			r.Get("/api/buckets/{name}/files", bucketAdminH.ListFiles)
-			r.Post("/api/buckets/{name}/files", bucketAdminH.UploadFile)
-			r.Get("/api/buckets/{name}/files/{id}", bucketAdminH.DownloadFile)
-			r.Delete("/api/buckets/{name}/files/{id}", bucketAdminH.DeleteFile)
-		}
+		r.Get("/api/buckets/{name}/files", bucketAdminH.ListFiles)
+		r.Post("/api/buckets/{name}/files", bucketAdminH.UploadFile)
+		r.Get("/api/buckets/{name}/files/{id}", bucketAdminH.DownloadFile)
+		r.Delete("/api/buckets/{name}/files/{id}", bucketAdminH.DeleteFile)
 	})
 
 	// ── Per-DB data endpoints (auth handled inside each handler) ──────────────
@@ -197,25 +195,23 @@ func main() {
 	r.Post("/api/db/{name}/rest/{table}", restH.Post)
 	r.Patch("/api/db/{name}/rest/{table}", restH.Patch)
 	r.Delete("/api/db/{name}/rest/{table}", restH.Delete)
-	if cfg.EnableFiles {
-		r.Get("/api/db/{name}/files", filesH.List)
-		r.Post("/api/db/{name}/files", filesH.Upload)
-		// NOTE: presign/batch and bulk-delete must be registered before {id} routes
-		// so chi does not treat "presign" or "bulk-delete" as a file ID.
-		r.Post("/api/db/{name}/files/presign/batch", filesH.PresignBatch)
-		r.Post("/api/db/{name}/files/bulk-delete", filesH.BulkDeleteFiles)
-		r.Head("/api/db/{name}/files/{id}", filesH.HeadFile)
-		r.Get("/api/db/{name}/files/{id}", filesH.Download)
-		r.Delete("/api/db/{name}/files/{id}", filesH.DeleteFile)
-		r.Get("/api/db/{name}/files/{id}/meta", filesH.Meta)
-		r.Post("/api/db/{name}/files/{id}/presign", filesH.PresignFile)
-		r.Post("/api/db/{name}/tokens/files", tokensH.CreateToken)
-		r.Post("/api/db/{name}/tokens/files/revoke", tokensH.RevokeToken)
+	r.Get("/api/db/{name}/files", filesH.List)
+	r.Post("/api/db/{name}/files", filesH.Upload)
+	// NOTE: presign/batch and bulk-delete must be registered before {id} routes
+	// so chi does not treat "presign" or "bulk-delete" as a file ID.
+	r.Post("/api/db/{name}/files/presign/batch", filesH.PresignBatch)
+	r.Post("/api/db/{name}/files/bulk-delete", filesH.BulkDeleteFiles)
+	r.Head("/api/db/{name}/files/{id}", filesH.HeadFile)
+	r.Get("/api/db/{name}/files/{id}", filesH.Download)
+	r.Delete("/api/db/{name}/files/{id}", filesH.DeleteFile)
+	r.Get("/api/db/{name}/files/{id}/meta", filesH.Meta)
+	r.Post("/api/db/{name}/files/{id}/presign", filesH.PresignFile)
+	r.Post("/api/db/{name}/tokens/files", tokensH.CreateToken)
+	r.Post("/api/db/{name}/tokens/files/revoke", tokensH.RevokeToken)
 
-		// Public file shortlink — no admin session required, only a valid file token.
-		// Registered outside the admin group; auth is enforced inside the handler.
-		r.Get("/{dbName}/file/{id}", filesH.FileShortlink)
-	}
+	// Public file shortlink — no admin session required, only a valid file token.
+	// Registered outside the admin group; auth is enforced inside the handler.
+	r.Get("/{dbName}/file/{id}", filesH.FileShortlink)
 
 	// Legacy /api/v1/* prefix strip — rewrite to /v1/* so old clients still work.
 	// /api/v1/query/{ref} → /v1/query/{ref}  (strips the /api prefix, keeps /v1/)

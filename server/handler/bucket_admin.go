@@ -7,7 +7,6 @@ import (
 	"database/sql"
 	"io"
 	"net/http"
-	"os"
 	"path/filepath"
 	"strconv"
 	"strings"
@@ -262,26 +261,8 @@ func (h *BucketAdminHandler) DownloadFile(w http.ResponseWriter, r *http.Request
 	w.Header().Set("Content-Length", strconv.FormatInt(stored.SizeBytes, 10))
 	w.Header().Set("Content-Disposition",
 		"inline; filename=\""+sanitizeHeaderFilename(stored.Filename)+`"`)
-
-	if h.cfg.EnableFileProxyDelivery {
-		w.Header().Set("X-Sendfile", "/"+filepath.Base(stored.StoragePath))
-		w.WriteHeader(http.StatusOK)
-		return
-	}
-
-	cleanPath := filepath.Clean(stored.StoragePath)
-	if !strings.HasPrefix(cleanPath, filepath.Clean(h.cfg.DataPath)+string(filepath.Separator)) {
-		ErrorJSON(w, http.StatusInternalServerError, "file path error")
-		return
-	}
-	f, err := os.Open(cleanPath)
-	if err != nil {
-		ErrorJSON(w, http.StatusInternalServerError, "file unavailable")
-		return
-	}
-	defer f.Close()
+	w.Header().Set("X-Sendfile", "/"+filepath.Base(stored.StoragePath))
 	w.WriteHeader(http.StatusOK)
-	io.Copy(w, f) //nolint:errcheck
 }
 
 // DeleteFile handles DELETE /api/buckets/{name}/files/{id} (admin only).

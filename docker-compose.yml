@@ -20,13 +20,10 @@ services:
       - DATA_PATH=/data
       # Storage limits
       - MAX_VOLUME_USAGE_PERCENT=${MAX_VOLUME_USAGE_PERCENT:-85}
-      # File storage configuration (set both — Go uses the un-prefixed form;
-      # Next.js client components use the NEXT_PUBLIC_ form)
-      - ENABLE_FILE_STORAGE=${ENABLE_FILE_STORAGE:-false}
-      - NEXT_PUBLIC_ENABLE_FILE_STORAGE=${ENABLE_FILE_STORAGE:-false}
+      # File storage — always enabled; NEXT_PUBLIC_ controls the UI only
+      - NEXT_PUBLIC_ENABLE_FILE_STORAGE=${NEXT_PUBLIC_ENABLE_FILE_STORAGE:-true}
       # Required for presigned file URL signing (separate from ADMIN_TOKEN)
       - FILE_TOKEN_SIGNING_SECRET=${FILE_TOKEN_SIGNING_SECRET}
-      - ENABLE_FILE_PROXY_DELIVERY=${ENABLE_FILE_PROXY_DELIVERY:-true}
       - FILE_MAX_SIZE_BYTES=${FILE_MAX_SIZE_BYTES:-104857600}
       - FILE_MAX_FILES_PER_DB=${FILE_MAX_FILES_PER_DB:-10000}
       - FILE_MAX_STORAGE_PER_DB_BYTES=${FILE_MAX_STORAGE_PER_DB_BYTES:-5368709120}
@@ -78,13 +75,10 @@ services:
       - DATA_PATH=/data
       # Storage limits
       - MAX_VOLUME_USAGE_PERCENT=${MAX_VOLUME_USAGE_PERCENT:-85}
-      # File storage configuration (set both — Go uses the un-prefixed form;
-      # Next.js client components use the NEXT_PUBLIC_ form)
-      - ENABLE_FILE_STORAGE=${ENABLE_FILE_STORAGE:-false}
-      - NEXT_PUBLIC_ENABLE_FILE_STORAGE=${ENABLE_FILE_STORAGE:-false}
+      # File storage — always enabled; NEXT_PUBLIC_ controls the UI only
+      - NEXT_PUBLIC_ENABLE_FILE_STORAGE=${NEXT_PUBLIC_ENABLE_FILE_STORAGE:-true}
       # Required for presigned file URL signing (separate from ADMIN_TOKEN)
       - FILE_TOKEN_SIGNING_SECRET=${FILE_TOKEN_SIGNING_SECRET}
-      - ENABLE_FILE_PROXY_DELIVERY=${ENABLE_FILE_PROXY_DELIVERY:-true}
       - FILE_MAX_SIZE_BYTES=${FILE_MAX_SIZE_BYTES:-104857600}
       - FILE_MAX_FILES_PER_DB=${FILE_MAX_FILES_PER_DB:-10000}
       - FILE_MAX_STORAGE_PER_DB_BYTES=${FILE_MAX_STORAGE_PER_DB_BYTES:-5368709120}
