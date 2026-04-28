@@ -16,6 +16,9 @@ DOMAIN="${DOMAIN:-}"
 API_HOST="${API_HOST:-}"
 ADMIN_HOSTS="${ADMIN_HOSTS:-}"
 
+# Railway automatically injects this for each service (e.g. mesahub.railway.internal).
+RAILWAY_PRIVATE_DOMAIN="${RAILWAY_PRIVATE_DOMAIN:-}"
+
 # Build fully-qualified hostnames from the parts above.
 API_FULL_HOSTNAME=""
 if [ -n "$API_HOST" ] && [ -n "$DOMAIN" ]; then
@@ -237,6 +240,27 @@ EOF
     @admin_host host ${ADMIN_HOST_LIST}
     handle @admin_host {
         reverse_proxy localhost:${NEXTJS_PORT}
+    }
+EOF
+    fi
+
+    # ── Railway private network ───────────────────────────────────────────────
+    # Railway automatically injects RAILWAY_PRIVATE_DOMAIN (e.g. mesahub.railway.internal).
+    # Explicitly route it to the Go server so other services in the same Railway project
+    # can reach the API via the private network without going through the public internet.
+    # (Use http://, not https:// — auto_https is off and Railway internal is plain HTTP.)
+    if [ -n "${RAILWAY_PRIVATE_DOMAIN}" ]; then
+        cat >> /tmp/Caddyfile <<EOF
+
+    @railway_internal host ${RAILWAY_PRIVATE_DOMAIN}
+    handle @railway_internal {
+        handle_path /v1/* {
+            rewrite * /api{path}
+            reverse_proxy localhost:${GO_PORT}
+        }
+        handle {
+            reverse_proxy localhost:${GO_PORT}
+        }
     }
 EOF
     fi
