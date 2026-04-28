@@ -83,8 +83,13 @@ if [ "$NODE_ENV" = "development" ]; then
     @dslash path_regexp dslash ^//(.*)$
     rewrite @dslash /{http.regexp.dslash.1}
 
-    # SDK data-plane routes (shs_ API key, no session cookie) → Go directly.
-    handle /v1/* {
+    # /v1/* → strip prefix, rewrite to /api, proxy to Go.
+    handle_path /v1/* {
+        rewrite * /api{path}
+        reverse_proxy localhost:${GO_PORT}
+    }
+    # SDK data-plane routes → Go directly.
+    handle /api/db/* {
         reverse_proxy localhost:${GO_PORT}
     }
     handle /api/exec/* {
@@ -239,8 +244,13 @@ EOF
     # ── Path-based fallback routing (standalone + Railway preview URLs) ───────
     cat >> /tmp/Caddyfile <<EOF
 
+    # /v1/* → strip prefix, rewrite to /api, proxy to Go.
+    handle_path /v1/* {
+        rewrite * /api{path}
+        reverse_proxy localhost:${GO_PORT}
+    }
     # SDK data-plane routes → Go directly (bypasses Next.js auth middleware).
-    handle /v1/* {
+    handle /api/db/* {
         reverse_proxy localhost:${GO_PORT}
     }
     handle /api/exec/* {

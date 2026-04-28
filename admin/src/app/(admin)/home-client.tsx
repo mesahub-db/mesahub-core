@@ -96,9 +96,10 @@ function SearchInput({
         viewBox="0 0 16 16"
         fill="none"
         aria-hidden="true"
+        suppressHydrationWarning
       >
-        <circle cx="6.5" cy="6.5" r="5" stroke="currentColor" strokeWidth="1.5" />
-        <path d="M10.5 10.5L14 14" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+        <circle cx="6.5" cy="6.5" r="5" stroke="currentColor" strokeWidth="1.5" suppressHydrationWarning />
+        <path d="M10.5 10.5L14 14" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" suppressHydrationWarning />
       </svg>
       <input
         type="search"
@@ -114,8 +115,8 @@ function SearchInput({
           className="absolute right-2.5 top-1/2 -translate-y-1/2 text-zinc-500 hover:text-zinc-300"
           aria-label="Clear search"
         >
-          <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
-            <path d="M2 2l8 8M10 2l-8 8" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+          <svg width="12" height="12" viewBox="0 0 12 12" fill="none" suppressHydrationWarning>
+            <path d="M2 2l8 8M10 2l-8 8" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" suppressHydrationWarning />
           </svg>
         </button>
       )}
@@ -385,12 +386,13 @@ function Modal({
             className="text-zinc-500 hover:text-zinc-200 transition-colors"
             aria-label="Close"
           >
-            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" suppressHydrationWarning>
               <path
                 d="M3 3l10 10M13 3L3 13"
                 stroke="currentColor"
                 strokeWidth="1.5"
                 strokeLinecap="round"
+                suppressHydrationWarning
               />
             </svg>
           </button>
@@ -826,8 +828,8 @@ export function HomeClient({
                     onClick={() => setShowDbModal(true)}
                     className="flex items-center gap-1.5 text-xs font-medium bg-white text-zinc-950 px-3 py-1.5 rounded-md hover:bg-zinc-200 transition-colors whitespace-nowrap"
                   >
-                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
-                      <path d="M6 1v10M1 6h10" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true" suppressHydrationWarning>
+                      <path d="M6 1v10M1 6h10" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" suppressHydrationWarning />
                     </svg>
                     New database
                   </button>
@@ -839,8 +841,8 @@ export function HomeClient({
                     onClick={() => setShowBucketModal(true)}
                     className="flex items-center gap-1.5 text-xs font-medium bg-white text-zinc-950 px-3 py-1.5 rounded-md hover:bg-zinc-200 transition-colors whitespace-nowrap"
                   >
-                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
-                      <path d="M6 1v10M1 6h10" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true" suppressHydrationWarning>
+                      <path d="M6 1v10M1 6h10" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" suppressHydrationWarning />
                     </svg>
                     New bucket
                   </button>
