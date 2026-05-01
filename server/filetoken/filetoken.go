@@ -28,10 +28,17 @@ const (
 
 // Payload is the decoded content of a file access token.
 type Payload struct {
-	TokenID   string `json:"tokenId"`
-	DBName    string `json:"dbName"`
-	Scope     string `json:"scope"`
-	ExpiresAt int64  `json:"expiresAt"`
+	TokenID string `json:"tokenId"`
+	DBName  string `json:"dbName"`
+	Scope   string `json:"scope"`
+	// "files:read"  — download authorisation (shortlink)
+	// "files:write" — upload authorisation (PUT /{ns}/upload)
+	ExpiresAt int64 `json:"expiresAt"`
+
+	// Write-scope constraints — zero value means unconstrained.
+	Filename    string `json:"filename,omitempty"`
+	ContentType string `json:"contentType,omitempty"`
+	FolderPath  string `json:"folderPath,omitempty"`
 }
 
 // CreateResult holds the values returned to the caller when a token is issued.
@@ -117,7 +124,7 @@ func Verify(token string) (*Payload, error) {
 	if err := json.Unmarshal(payloadJSON, &p); err != nil {
 		return nil, fmt.Errorf("unmarshal payload: %w", err)
 	}
-	if p.DBName == "" || p.TokenID == "" || p.Scope != "files:read" {
+	if p.DBName == "" || p.TokenID == "" || p.Scope == "" {
 		return nil, errors.New("token missing required fields")
 	}
 	if p.ExpiresAt < time.Now().Unix() {
@@ -153,6 +160,9 @@ func ValidateFromRequest(r *http.Request, dbName string, isRevoked func(tokenID 
 	if err != nil {
 		return false
 	}
+	if p.Scope != "files:read" {
+		return false
+	}
 	if p.DBName != dbName {
 		return false
 	}
@@ -160,6 +170,50 @@ func ValidateFromRequest(r *http.Request, dbName string, isRevoked func(tokenID 
 		return false
 	}
 	return true
+}
+
+// CreateUpload issues a files:write token for the presigned-upload flow.
+// The filename, contentType, and folderPath are embedded so the upload handler
+// can enforce that the received file matches what was authorised.
+func CreateUpload(dbName, filename, contentType, folderPath string, expiresInSeconds int) (CreateResult, error) {
+	secret, err := signingSecret()
+	if err != nil {
+		return CreateResult{}, err
+	}
+
+	ttl := expiresInSeconds
+	if ttl <= 0 {
+		ttl = defaultTTLSeconds
+	}
+	ttl = int(math.Min(math.Max(float64(ttl), 60), float64(maxTTLSeconds)))
+
+	tokenID := mustUUID()
+	expiresAt := time.Now().Unix() + int64(ttl)
+
+	p := Payload{
+		TokenID:     tokenID,
+		DBName:      dbName,
+		Scope:       "files:write",
+		ExpiresAt:   expiresAt,
+		Filename:    filename,
+		ContentType: contentType,
+		FolderPath:  folderPath,
+	}
+	payloadJSON, err := json.Marshal(p)
+	if err != nil {
+		return CreateResult{}, err
+	}
+	payloadB64 := base64.RawURLEncoding.EncodeToString(payloadJSON)
+	sig := computeSig(secret, payloadB64)
+	token := payloadB64 + "." + sig
+
+	return CreateResult{
+		TokenID:   tokenID,
+		Token:     token,
+		ExpiresAt: time.Unix(expiresAt, 0),
+		ExpiresIn: ttl,
+		Scope:     "files:write",
+	}, nil
 }
 
 // computeSig returns base64url(HMAC-SHA256(secret, payloadB64)).

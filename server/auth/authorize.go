@@ -193,3 +193,30 @@ func extractBearer(r *http.Request) string {
 	}
 	return strings.TrimPrefix(h, "Bearer ")
 }
+
+// AuthorizeBucket enforces access control for bucket file operations.
+// Admin bearer tokens always pass. shk_ keys are accepted when they carry a
+// scope that grants access to the bucket (e.g. "bucket:{slug}:w").
+// op is "read" or "write".
+func AuthorizeBucket(r *http.Request, cfg *config.Config, c cache.Client, record *db.BucketRecord, op string) (int, string) {
+	if r.Header.Get(AdminSessionHeader) == "1" {
+		return 0, ""
+	}
+	if record.Status != "active" {
+		return http.StatusServiceUnavailable, "This bucket is inactive"
+	}
+
+	bearer := extractBearer(r)
+	if bearer == "" {
+		return http.StatusUnauthorized, "Unauthorized"
+	}
+
+	kv, ok := ValidateTemplateKey(r.Context(), c, bearer)
+	if !ok {
+		return http.StatusUnauthorized, "Unauthorized"
+	}
+	if !hasPermission(kv.Scopes, "bucket", record.Slug, op) {
+		return http.StatusForbidden, "This API key does not have access to this bucket"
+	}
+	return 0, ""
+}

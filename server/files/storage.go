@@ -83,6 +83,7 @@ var (
 	ErrFilenameTooLong   = errors.New("filename exceeds maximum length")
 	ErrMetadataTooLarge  = errors.New("metadata field exceeds maximum size")
 	ErrFolderPathInvalid = errors.New("folderPath contains invalid characters")
+	ErrFileNotFound      = errors.New("file not found")
 )
 
 // ── upload / delete types ─────────────────────────────────────────────────────
@@ -140,6 +141,16 @@ func NewStorage(dataPath string, cfg *config.Config) (*Storage, error) {
 
 // Close shuts down the metadata connection.
 func (s *Storage) Close() error { return s.meta.Close() }
+
+// Meta returns the underlying MetadataDB. Used by cloud storage backends
+// (S3/R2) that manage blobs directly but share the SQLite metadata layer.
+func (s *Storage) Meta() *MetadataDB { return s.meta }
+
+// BlobsDir returns the path to the local blobs directory.
+func (s *Storage) BlobsDir() string { return s.blobsDir }
+
+// Limits returns the configured storage limits.
+func (s *Storage) StorageLimits() Limits { return s.limits }
 
 // SumBytesForNamespace returns the total size_bytes of all files stored under
 // the given namespace (db_name), for use in bucket size tracking.

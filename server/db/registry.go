@@ -4,12 +4,18 @@ package db
 
 import (
 	"context"
+	"crypto/rand"
+	"crypto/sha256"
 	"database/sql"
+	"encoding/base64"
+	"encoding/hex"
 	"encoding/json"
 	"fmt"
 	"os"
 	"path/filepath"
 	"time"
+
+	"github.com/google/uuid"
 
 	"github.com/0xdps/mesahub-core/cache"
 )
@@ -40,18 +46,20 @@ type DBRecord struct {
 
 // BucketRecord mirrors the `buckets` table row.
 type BucketRecord struct {
-	ID          string
-	Name        string // user-given display name
-	Slug        string // generated template-internal filename
-	Description sql.NullString
-	Owner       string
-	Source      string
-	InstanceID  sql.NullString
-	Status      string
-	SizeBytes   int64
-	CreatedAt   string
-	UpdatedAt   sql.NullString
-	DeletedAt   sql.NullString
+	ID             string
+	Name           string // user-given display name
+	Slug           string // generated template-internal filename
+	Description    sql.NullString
+	Owner          string
+	Source         string
+	InstanceID     sql.NullString
+	Status         string
+	SizeBytes      int64
+	APIKeyID       sql.NullString // references api_keys.id for the auto-generated bucket key
+	StorageBackend string         // "local" | "s3" | "r2" — which blob store backs this bucket
+	CreatedAt      string
+	UpdatedAt      sql.NullString
+	DeletedAt      sql.NullString
 }
 
 // AuditMetrics holds aggregated audit stats.
@@ -94,18 +102,20 @@ CREATE TABLE IF NOT EXISTS databases (
 CREATE INDEX IF NOT EXISTS idx_databases_owner ON databases(owner);
 
 CREATE TABLE IF NOT EXISTS buckets (
-  id          TEXT PRIMARY KEY,
-  name        TEXT NOT NULL,
-  slug        TEXT NOT NULL UNIQUE,
-  description TEXT,
-  owner       TEXT NOT NULL DEFAULT 'admin',
-  source      TEXT NOT NULL DEFAULT 'template',
-  instance_id TEXT,
-  status      TEXT NOT NULL DEFAULT 'active',
-  size_bytes  INTEGER NOT NULL DEFAULT 0,
-  created_at  TEXT NOT NULL DEFAULT (datetime('now')),
-  updated_at  TEXT,
-  deleted_at  TEXT,
+  id               TEXT PRIMARY KEY,
+  name             TEXT NOT NULL,
+  slug             TEXT NOT NULL UNIQUE,
+  description      TEXT,
+  owner            TEXT NOT NULL DEFAULT 'admin',
+  source           TEXT NOT NULL DEFAULT 'template',
+  instance_id      TEXT,
+  status           TEXT NOT NULL DEFAULT 'active',
+  size_bytes       INTEGER NOT NULL DEFAULT 0,
+  api_key_id       TEXT,
+  storage_backend  TEXT NOT NULL DEFAULT 'local',
+  created_at       TEXT NOT NULL DEFAULT (datetime('now')),
+  updated_at       TEXT,
+  deleted_at       TEXT,
   UNIQUE(owner, slug)
 );
 CREATE INDEX IF NOT EXISTS idx_buckets_owner ON buckets(owner);
@@ -155,6 +165,9 @@ func OpenRegistry(dataPath string) (*Registry, error) {
 	reg := &Registry{db: db, dataPath: dataPath}
 	if err := reg.migrateUnifiedSchema(); err != nil {
 		return nil, fmt.Errorf("registry: migrate: %w", err)
+	}
+	if err := reg.migrateRegistrySchema(); err != nil {
+		return nil, fmt.Errorf("registry: migrate schema: %w", err)
 	}
 	return reg, nil
 }
@@ -266,7 +279,40 @@ func (r *Registry) migrateUnifiedSchema() error {
 	})
 }
 
-// Close shuts down the registry connection.
+// migrateRegistrySchema adds new columns to existing tables without recreating them.
+func (r *Registry) migrateRegistrySchema() error {
+	if err := r.RunOnce("registry-schema-v2", func() error {
+		var hasAPIKeyID int
+		_ = r.db.QueryRow(
+			`SELECT COUNT(*) FROM pragma_table_info('buckets') WHERE name = 'api_key_id'`,
+		).Scan(&hasAPIKeyID)
+		if hasAPIKeyID == 0 {
+			_, err := r.db.Exec(`ALTER TABLE buckets ADD COLUMN api_key_id TEXT`)
+			if err != nil {
+				return fmt.Errorf("add api_key_id to buckets: %w", err)
+			}
+		}
+		return nil
+	}); err != nil {
+		return err
+	}
+
+	return r.RunOnce("registry-schema-v3", func() error {
+		var hasStorageBackend int
+		_ = r.db.QueryRow(
+			`SELECT COUNT(*) FROM pragma_table_info('buckets') WHERE name = 'storage_backend'`,
+		).Scan(&hasStorageBackend)
+		if hasStorageBackend == 0 {
+			_, err := r.db.Exec(`ALTER TABLE buckets ADD COLUMN storage_backend TEXT NOT NULL DEFAULT 'local'`)
+			if err != nil {
+				return fmt.Errorf("add storage_backend to buckets: %w", err)
+			}
+		}
+		return nil
+	})
+}
+
+// Close closes the underlying registry database connection.
 func (r *Registry) Close() error { return r.db.Close() }
 
 // DB returns the underlying *sql.DB for the registry store. Used by
@@ -725,20 +771,69 @@ func (r *Registry) TouchAPIKey(id string) error {
 
 // ── Buckets ───────────────────────────────────────────────────────────────────
 
-const bucketColumns = `id, name, slug, description, owner, source, instance_id, status, size_bytes, created_at, updated_at, deleted_at`
+const bucketColumns = `id, name, slug, description, owner, source, instance_id, status, size_bytes, api_key_id, storage_backend, created_at, updated_at, deleted_at`
 
-// InsertBucket creates a new bucket record.
-// id is a UUID; name is the user-given label; slug is the template-internal filename.
-func (r *Registry) InsertBucket(id, name, slug, owner, source string, instanceID *string, description *string) (*BucketRecord, error) {
-	_, err := r.db.Exec(
-		`INSERT INTO buckets (id, name, slug, owner, source, instance_id, description) VALUES (?, ?, ?, ?, ?, ?, ?)`,
-		id, name, slug, owner, source, strPtr(instanceID), strPtr(description))
+// InsertBucket creates a new bucket record and auto-generates a dedicated shk_
+// API key scoped to this bucket. The raw key is returned once and never stored.
+func (r *Registry) InsertBucket(id, name, slug, owner, source string, instanceID *string, description *string, storageBackend string) (*BucketRecord, string, error) {
+	// Generate a bucket-scoped API key.
+	rawKey, keyHash, err := generateBucketKey()
 	if err != nil {
-		return nil, err
+		return nil, "", fmt.Errorf("generate bucket key: %w", err)
 	}
+	keyID := uuid.New().String()
+	scopeJSON := fmt.Sprintf(`["bucket:%s:w"]`, slug)
+
+	tx, err := r.db.Begin()
+	if err != nil {
+		return nil, "", err
+	}
+	defer func() {
+		if err != nil {
+			_ = tx.Rollback()
+		}
+	}()
+
+	_, err = tx.Exec(
+		`INSERT INTO api_keys (id, name, key_hash, scopes, owner, key_type) VALUES (?, ?, ?, ?, ?, ?)`,
+		keyID, "bucket-key:"+slug, keyHash, scopeJSON, owner, "bucket")
+	if err != nil {
+		return nil, "", err
+	}
+	if storageBackend == "" {
+		storageBackend = "local"
+	}
+	_, err = tx.Exec(
+		`INSERT INTO buckets (id, name, slug, owner, source, instance_id, description, api_key_id, storage_backend) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+		id, name, slug, owner, source, strPtr(instanceID), strPtr(description), keyID, storageBackend)
+	if err != nil {
+		return nil, "", err
+	}
+	if err = tx.Commit(); err != nil {
+		return nil, "", err
+	}
+
 	r.invalidateBucketList(owner)
-	return r.GetBucket(slug)
+	rec, err := r.GetBucket(slug)
+	if err != nil {
+		return nil, "", err
+	}
+	return rec, rawKey, nil
 }
+
+// generateBucketKey returns (rawKey, sha256hex, error).
+// Raw key format: "shk_" + 32 random bytes base64url-encoded.
+func generateBucketKey() (string, string, error) {
+	b := make([]byte, 32)
+	if _, err := rand.Read(b); err != nil {
+		return "", "", err
+	}
+	raw := "shk_" + base64.RawURLEncoding.EncodeToString(b)
+	sum := sha256.Sum256([]byte(raw))
+	return raw, hex.EncodeToString(sum[:]), nil
+}
+
+// RevokeAPIKey marks a key as revoked.
 
 // GetBucketByID returns a bucket record by its UUID primary key.
 func (r *Registry) GetBucketByID(id string) (*BucketRecord, error) {
@@ -854,11 +949,11 @@ func scanAPIKeyRecords(rows *sql.Rows) ([]APIKeyRecord, error) {
 func scanBucketRecord(row *sql.Row) (*BucketRecord, error) {
 	var r BucketRecord
 	// column order matches bucketColumns const:
-	// id, name, slug, description, owner, source, instance_id, status, size_bytes, created_at, updated_at, deleted_at
+	// id, name, slug, description, owner, source, instance_id, status, size_bytes, api_key_id, storage_backend, created_at, updated_at, deleted_at
 	err := row.Scan(
 		&r.ID, &r.Name, &r.Slug, &r.Description,
 		&r.Owner, &r.Source, &r.InstanceID,
-		&r.Status, &r.SizeBytes, &r.CreatedAt, &r.UpdatedAt, &r.DeletedAt)
+		&r.Status, &r.SizeBytes, &r.APIKeyID, &r.StorageBackend, &r.CreatedAt, &r.UpdatedAt, &r.DeletedAt)
 	if err != nil {
 		return nil, err
 	}
@@ -872,7 +967,7 @@ func scanBucketRecords(rows *sql.Rows) ([]BucketRecord, error) {
 		if err := rows.Scan(
 			&r.ID, &r.Name, &r.Slug, &r.Description,
 			&r.Owner, &r.Source, &r.InstanceID,
-			&r.Status, &r.SizeBytes, &r.CreatedAt, &r.UpdatedAt, &r.DeletedAt); err != nil {
+			&r.Status, &r.SizeBytes, &r.APIKeyID, &r.StorageBackend, &r.CreatedAt, &r.UpdatedAt, &r.DeletedAt); err != nil {
 			return nil, err
 		}
 		out = append(out, r)
