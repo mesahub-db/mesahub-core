@@ -1,6 +1,6 @@
 # mesahub-core
 
-The self-hosted SQLite service at the heart of MesaHUB.
+The self-hosted SQLite service at the heart of MesaHub.
 
 Each database gets its own `.db` file on a persistent volume. A Go HTTP server exposes a REST + SQL API; a Next.js admin studio lets you browse and query databases in a browser.
 
