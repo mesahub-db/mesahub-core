@@ -12,29 +12,20 @@ jobs:
     name: Go Build & Vet
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout mesahub-mono
+      - name: Checkout
         uses: actions/checkout@v4
-        with:
-          repository: mesahub-db/mesahub-mono
-          token: ${{ secrets.GH_PAT }}
-          submodules: recursive
-          fetch-depth: 0
 
       - name: Set up Go
         uses: actions/setup-go@v5
         with:
-          go-version-file: core/server/go.mod
-          cache-dependency-path: |
-            core/server/go.sum
-            cloud/server/go.sum
+          go-version-file: server/go.mod
+          cache-dependency-path: server/go.sum
 
-      - name: Build core server
-        run: |
-          CGO_ENABLED=1 go build -C core/server ./...
+      - name: Build
+        run: CGO_ENABLED=1 go build -C server ./...
 
       - name: Vet
-        run: |
-          go vet -C core/server ./...
+        run: go vet -C server ./...
 
       - name: Log success
         run: echo "✅ Success!"
