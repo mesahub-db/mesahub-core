@@ -1,7 +1,8 @@
 name: Docker Release
 
 # Triggered by a version tag on mesahub-core (e.g. v1.2.3).
-# Checks out the full mono context and builds + pushes the mesahub-core image.
+# Publishes the public mesahub-core image (Go API + admin UI).
+# The core repo is public and self-contained -- no GH_PAT or mono checkout needed.
 
 on:
   push:
@@ -22,12 +23,9 @@ jobs:
       contents: read
       packages: write
     steps:
-      - name: Checkout mesahub-mono
+      - name: Checkout mesahub-core
         uses: actions/checkout@v4
         with:
-          repository: mesahub-db/mesahub-mono
-          token: ${{ secrets.GH_PAT }}
-          submodules: recursive
           fetch-depth: 0
 
       - name: Log in to ghcr.io
@@ -42,8 +40,8 @@ jobs:
         with:
           driver: docker-container
 
-      - name: Extract metadata (core)
-        id: meta-core
+      - name: Extract metadata
+        id: meta
         uses: docker/metadata-action@v6
         with:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_OWNER }}/mesahub-core
@@ -60,11 +58,11 @@ jobs:
         uses: docker/build-push-action@v6
         with:
           context: .
-          file: ./core/Dockerfile
+          file: ./Dockerfile
           target: production
           push: true
-          tags: ${{ steps.meta-core.outputs.tags }}
-          labels: ${{ steps.meta-core.outputs.labels }}
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
           cache-from: |
             type=gha,scope=mesahub-core
             type=registry,ref=${{ env.REGISTRY }}/${{ env.IMAGE_OWNER }}/mesahub-core:latest
