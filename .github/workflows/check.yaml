@@ -15,7 +15,7 @@ jobs:
       - name: Checkout mesahub-mono
         uses: actions/checkout@v4
         with:
-          repository: 0xdps/mesahub-mono
+          repository: mesahub-db/mesahub-mono
           token: ${{ secrets.GH_PAT }}
           submodules: recursive
           fetch-depth: 0
