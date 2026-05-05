@@ -1,4 +1,4 @@
-# mesahub core — Copilot Instructions
+# MesaHub Core — Copilot Instructions
 
 ## What this service is
 The **self-hosted SQLite service** deployed to Railway. It owns:
@@ -25,16 +25,18 @@ The **self-hosted SQLite service** deployed to Railway. It owns:
 ### Package layout
 | Package | Purpose |
 |---|---|
-| `internal/config` | Config struct + env var loading |
-| `internal/db` | Pool (per-db connections), Registry (store.db) |
-| `internal/queue` | Per-db serialised write queue |
-| `internal/files` | File storage + metadata DB |
-| `internal/filetoken` | HMAC-SHA256 file access tokens |
-| `internal/sysutil` | Volume info, DB path helpers |
-| `internal/auth` | Request authorisation |
-| `internal/cache` | Redis or off-mode caching |
-| `internal/handler` | All HTTP handlers |
-| `internal/middleware` | Chi middleware (admin stamper, etc.) |
+| `config/` | Config struct + env var loading |
+| `db/` | Pool (per-db connections), Registry (store.db) |
+| `queue/` | Per-db serialised write queue |
+| `files/` | File storage + metadata DB |
+| `filetoken/` | HMAC-SHA256 file access tokens |
+| `sysutil/` | Volume info, DB path helpers |
+| `auth/` | Request authorisation |
+| `cache/` | Redis or off-mode caching |
+| `handler/` | All HTTP handlers |
+| `middleware/` | Chi middleware (admin stamper, etc.) |
+| `migrate/` | Schema migration helpers |
+| `telemetry/` | Structured logging helpers |
 
 ### Router
 Uses `github.com/go-chi/chi/v5`. All routes mount under `/api`.
@@ -57,11 +59,12 @@ present.
 ### store.db tables
 | Table | Key columns | Notes |
 |---|---|---|
-| `databases` | `id` (INTEGER PK), `slug` (UUID), `name` (filename), `display_name`, `owner` (user ID), `status` | `slug` is the frontend identifier |
-| `buckets` | `id` (TEXT PK), `name`, `display_name`, `owner`, `status` | |
-| `api_keys` | `id`, `key_hash`, `scopes` (JSON), `owner` (user ID), `status` | Column is `owner`, not `user_id` |
-| `file_token_revocations` | `jti`, `expires_at` | |
-| `audit_events` | `id`, `db_name`, `event_type`, `actor` | |
+| `databases` | `id` (TEXT PK — UUID, frontend identifier), `name` (user-visible display name), `slug` (generated internal filename), `owner` (user ID), `status`, `size_bytes` | `id` is the URL param; there is no integer PK and no `display_name` column |
+| `buckets` | `id` (TEXT PK), `name` (user-visible), `slug` (internal filename), `owner`, `status`, `storage_backend` | |
+| `api_keys` | `id`, `name`, `key_hash`, `key_type`, `scopes` (JSON), `owner` (user ID), `expires_at`, `status`, `last_used_at` | Column is `owner`, not `user_id` |
+| `file_token_revocations` | `token_id`, `db_name`, `expires_at` | |
+| `audit_events` | `id`, `event_type`, `db_name`, `actor`, `metadata` | |
+| `schema_migrations` | `name`, `applied_at` | Tracks applied migration names |
 
 ### Database HTTP endpoints (exposed for dashboard)
 | Endpoint | Access | Purpose |
