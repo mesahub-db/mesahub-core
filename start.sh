@@ -37,7 +37,7 @@ echo "PORT=$PORT (Caddy)  Go=:$GO_PORT  Next.js=:$NEXTJS_PORT"
 # ---------------------------------------------------------------------------
 if [ "$NODE_ENV" = "development" ]; then
 # ---------------------------------------------------------------------------
-    echo "Starting SQLite Hub in DEVELOPMENT mode"
+    echo "Starting MesaHub Core in DEVELOPMENT mode"
     mkdir -p /data /data/files/blobs
 
     echo "Starting Go server on :$GO_PORT ..."
@@ -130,7 +130,7 @@ EOF
 # ---------------------------------------------------------------------------
 else
 # ---------------------------------------------------------------------------
-    echo "Starting SQLite Hub in PRODUCTION mode"
+    echo "Starting MesaHub Core in PRODUCTION mode"
 
     # Railway volumes mount asynchronously — wait until /data is writable
     # before starting the Go server (which opens SQLite files there).

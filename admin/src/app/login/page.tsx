@@ -40,7 +40,7 @@ export default function LoginPage() {
     <div className="min-h-screen bg-neutral-950 flex items-center justify-center px-4">
       <div className="w-full max-w-sm">
         <h1 className="text-white text-xl font-semibold mb-1 tracking-tight">
-          sqlite-hub
+          MesaHub
         </h1>
         <p className="text-neutral-500 text-sm mb-8">
           Enter your admin token to continue.

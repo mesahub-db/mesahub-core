@@ -22,7 +22,7 @@ const FILE_SHORTLINK_PATTERN = /^\/[^/]+\/file\/[^/]+$/;
 
 // Trusted internal header stamped by middleware after session verification.
 // Stripped from all incoming requests to prevent external forgery.
-export const ADMIN_SESSION_HEADER = "x-sqlite-hub-admin";
+export const ADMIN_SESSION_HEADER = "x-mesahub-admin";
 
 function resolveAllowedOrigin(req: NextRequest): string | null {
   const origin = req.headers.get("origin");

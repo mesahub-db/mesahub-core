@@ -35,10 +35,10 @@ func Logger(next http.Handler) http.Handler {
 // so that external clients cannot spoof them.
 func StripInternalHeaders(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		r.Header.Del("X-Sqlite-Hub-Admin")
-		r.Header.Del("X-Sqlite-Hub-User-Id")
+		r.Header.Del("X-MesaHub-Admin")
+		r.Header.Del("X-MesaHub-User-Id")
 		r.Header.Del("X-Internal-Request")
-		r.Header.Del("X-Sqlite-Hub-Control")
+		r.Header.Del("X-MesaHub-Control")
 		next.ServeHTTP(w, r)
 	})
 }

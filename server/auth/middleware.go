@@ -11,7 +11,7 @@ import (
 	"github.com/0xdps/mesahub-core/config"
 )
 
-// AdminStamper is a global middleware that stamps X-Sqlite-Hub-Admin: 1 on
+// AdminStamper is a global middleware that stamps X-MesaHub-Admin: 1 on
 // the request when the caller presents valid credentials:
 //
 //   - "Authorization: Bearer {ADMIN_TOKEN}" — server-to-server access

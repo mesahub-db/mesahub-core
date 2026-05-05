@@ -131,7 +131,7 @@ export default function BucketFilesPage({
   });
 
   const localFolderStorageKey = useMemo(
-    () => `sqlite-hub:bucket-folders:${name}`,
+    () => `mesahub:bucket-folders:${name}`,
     [name]
   );
 

@@ -1,7 +1,7 @@
 #!/bin/bash
 
 ###############################################################################
-# End-to-End Docker Test Suite for SQLite Hub
+# End-to-End Docker Test Suite for MesaHub Core
 #
 # Tests all concurrency hardening and file storage features locally
 #
@@ -27,7 +27,7 @@ NC='\033[0m' # No Color
 API_URL="${API_URL:-http://localhost:8080}"
 ADMIN_TOKEN="${ADMIN_TOKEN:-dev-token-change-me-in-production}"
 SKIP_LOGIN="${SKIP_LOGIN:-false}"
-COOKIES_FILE="/tmp/sqlite-hub-cookies.txt"
+COOKIES_FILE="/tmp/mesahub-cookies.txt"
 TEST_DB_NAME="test-db-$(date +%s)"
 API_BEARER="$ADMIN_TOKEN"
 
@@ -95,7 +95,7 @@ assert_contains() {
 
 setup() {
   log_info "=========================================="
-  log_info "SQLite Hub End-to-End Test Suite"
+  log_info "MesaHub Core End-to-End Test Suite"
   log_info "=========================================="
   log_info "API URL: $API_URL"
   log_info "Test Database: $TEST_DB_NAME"
@@ -308,7 +308,7 @@ test_upload_file() {
   
   # Create a test file
   local test_file="/tmp/test-upload-$(date +%s).txt"
-  echo "Hello from SQLite Hub! This is a test file." > "$test_file"
+  echo "Hello from MesaHub! This is a test file." > "$test_file"
   
   local response
   response=$(curl -s -w "\n%{http_code}" -X POST "$API_URL/api/db/$TEST_DB_NAME/files" \

@@ -54,7 +54,7 @@ export default function SidebarTab({ tabs }: Readonly<SidebarTabProps>) {
             </DropdownMenuTrigger>
             <DropdownMenuContent side="right" align="start">
               <div className="px-3 py-2">
-                <div className="font-semibold text-sm">sqlite-hub</div>
+                <div className="font-semibold text-sm">MesaHub</div>
                 <div className="text-xs text-neutral-500">SQLite viewer</div>
               </div>
 
@@ -75,7 +75,7 @@ export default function SidebarTab({ tabs }: Readonly<SidebarTabProps>) {
                 <BugBeetle className="mr-2" />
                 <Link
                   className="block w-full"
-                  href="https://github.com/0xdps/sqlite-hub/issues"
+                  href="https://github.com/mesahub-db/mesahub-core/issues"
                   target="_blank"
                 >
                   Report issues
