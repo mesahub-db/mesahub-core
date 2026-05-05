@@ -1,4 +1,4 @@
-# mesahub-core
+# MesaHub Core
 
 The self-hosted SQLite service at the heart of MesaHub.
 

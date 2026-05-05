@@ -28,7 +28,7 @@ export function goFetchAdmin(path: string, init?: RequestInit): Promise<Response
 /**
  * Call a Go per-DB endpoint.
  * If the incoming request has already been verified as an admin session
- * (x-sqlite-hub-admin: 1 stamped by the Next.js middleware), use the admin
+ * (x-mesahub-admin: 1 stamped by the Next.js middleware), use the admin
  * token. Otherwise forward the caller's own Authorization header so Go can
  * validate the scoped API key.
  */
@@ -37,7 +37,7 @@ export function goFetchDb(
   incomingReq: Request,
   init?: RequestInit
 ): Promise<Response> {
-  const isAdmin = incomingReq.headers.get("x-sqlite-hub-admin") === "1";
+  const isAdmin = incomingReq.headers.get("x-mesahub-admin") === "1";
   const authHeader = isAdmin
     ? `Bearer ${ADMIN_TOKEN}`
     : (incomingReq.headers.get("authorization") ?? "");

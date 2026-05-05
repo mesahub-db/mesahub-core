@@ -7,7 +7,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
       <header className="border-b border-neutral-800 px-6 py-3 flex items-center justify-between shrink-0">
         <Link href="/" className="flex items-center gap-2">
           <img src="/logo.svg" alt="mesahub" className="w-6 h-6 rounded" />
-          <span className="text-sm font-semibold tracking-tight text-white">sqlite-hub</span>
+          <span className="text-sm font-semibold tracking-tight text-white">MesaHub</span>
         </Link>
         <form action={logout}>
           <button

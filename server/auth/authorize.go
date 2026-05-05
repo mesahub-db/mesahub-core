@@ -22,11 +22,11 @@ const apiKeyTTL = 15 * time.Minute
 // AdminSessionHeader is set by AdminStamper after auth verification and is
 // stripped from every incoming request by StripInternalHeaders so it cannot
 // be forged externally.
-const AdminSessionHeader = "X-Sqlite-Hub-Admin"
+const AdminSessionHeader = "X-MesaHub-Admin"
 
 // ControlPlaneHeader is set by RequireControlPlane after verifying
 // CONTROL_PLANE_SECRET. Stripped on ingress so it cannot be forged.
-const ControlPlaneHeader = "X-Sqlite-Hub-Control"
+const ControlPlaneHeader = "X-MesaHub-Control"
 
 // globalRegistry is the shared registry.db handle used to validate shk_ keys.
 // Set once at startup via SetRegistry.
@@ -150,7 +150,7 @@ func AuthorizeDB(r *http.Request, cfg *config.Config, c cache.Client, record *db
 // *cache.APIKeyValue (nil for admin requests or on failure).
 //
 // Resolution order:
-//  1. X-Sqlite-Hub-Admin: 1  → allowed (admin session set by AdminStamper)
+//  1. X-MesaHub-Admin: 1  → allowed (admin session set by AdminStamper)
 //  2. Bearer shk_*           → ValidateTemplateKey (registry.db api_keys)
 //  3. Bearer other           → UserKeyValidator hook (SaaS wires shs_ here)
 //  4. No valid credential    → 401

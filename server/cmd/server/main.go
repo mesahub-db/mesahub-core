@@ -52,7 +52,7 @@ func main() {
 	log.Info().
 		Str("version", version).
 		Int("port", cfg.Port).
-		Msg("sqlite-hub server starting")
+		Msg("mesahub server starting")
 
 	// ── Cache ─────────────────────────────────────────────────────────────────
 	cacheClient, err := cache.New(cfg.RedisURL)

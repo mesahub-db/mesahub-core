@@ -131,7 +131,7 @@ export default function DbFilesPage({
   });
 
   const localFolderStorageKey = useMemo(
-    () => `sqlite-hub:folders:${name}:${dbIdentity}`,
+    () => `mesahub:folders:${name}:${dbIdentity}`,
     [name, dbIdentity]
   );
 

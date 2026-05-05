@@ -1,5 +1,5 @@
 /**
- * Minimal structured logger for sqlite-hub.
+ * Minimal structured logger for MesaHub Core.
  * All output goes to stdout/stderr so Railway captures it automatically.
  *
  * Format: [ISO timestamp] LEVEL  message

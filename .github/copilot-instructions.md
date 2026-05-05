@@ -40,12 +40,12 @@ The **self-hosted SQLite service** deployed to Railway. It owns:
 
 ### Router
 Uses `github.com/go-chi/chi/v5`. All routes mount under `/api`.
-Admin routes require the `x-sqlite-hub-admin: 1` header, which is stamped by
+Admin routes require the `x-mesahub-admin: 1` header, which is stamped by
 `AdminStamper` middleware when a valid `Authorization: Bearer <ADMIN_TOKEN>` is
 present.
 
 ### Auth model
-- **Admin** — `ADMIN_TOKEN` bearer → `x-sqlite-hub-admin: 1` → full access
+- **Admin** — `ADMIN_TOKEN` bearer → `x-mesahub-admin: 1` → full access
 - **API keys** — `shs_` prefix, stored as SHA-256 hash in `api_keys` table of `store.db`
 - **Service secrets** — `sv_` prefix, different code path; never use `shs_` for service secrets
 - `auth.AuthorizeDB(r, cfg, rec)` returns `(int, string)` — `0` means authorised

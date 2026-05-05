@@ -60,7 +60,7 @@ services:
     build:
       context: .
       target: production
-    container_name: sqlite-hub-prod
+    container_name: mesahub-core-prod
     command: /app/start.sh
     ports:
       - "${PORT:-8080}:80"

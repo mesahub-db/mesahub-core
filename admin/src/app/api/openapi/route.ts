@@ -7,10 +7,10 @@ export async function GET() {
   const spec = {
     openapi: "3.0.3",
     info: {
-      title: "SQLite Hub API",
+      title: "MesaHub Core API",
       version: "1.0.0",
       description:
-        `SQLite Hub API for database execution${FILES_ENABLED ? " and file storage" : ""}. Versioned base path /api/v1 is supported.`,
+        `MesaHub Core API for database execution${FILES_ENABLED ? " and file storage" : ""}. Versioned base path /api/v1 is supported.`,
     },
     servers: [
       { url: "/api", description: "Current API base" },

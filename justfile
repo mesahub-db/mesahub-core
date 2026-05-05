@@ -1,4 +1,4 @@
-# SQLite Hub runtime commands
+# MesaHub Core — runtime commands
 # Install: brew install just
 
 DEFAULT_PORT := env_var_or_default('MESAHUB_PORT', '8080')
