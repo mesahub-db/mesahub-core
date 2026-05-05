@@ -190,4 +190,4 @@ Dev mode mounts the admin source directory and starts Next.js with hot reload.
 
 ## License
 
-[Elastic License 2.0 (ELv2)](./LICENSE) — free to self-host and modify; you may not offer it as a managed service competing with MesaHUB.
+[Elastic License 2.0 (ELv2)](./LICENSE) — free to self-host and modify; you may not offer it as a managed service competing with MesaHub.
