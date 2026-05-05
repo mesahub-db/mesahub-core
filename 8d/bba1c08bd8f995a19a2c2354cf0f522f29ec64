@@ -1,0 +1,25 @@
+Dockerfile
+  bfdb913a099786cf 21-22
+railway.toml
+  bfdb913a099786cf 8-10
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.7",
+  "base_commit_sha": "8dbba1c08bd8f995a19a2c2354cf0f522f29ec64",
+  "prompts": {
+    "bfdb913a099786cf": {
+      "agent_id": {
+        "tool": "github-copilot",
+        "id": "5347ac22-c7cf-4fa5-8e9d-16975b6bd32a",
+        "model": "copilot/claude-sonnet-4.6"
+      },
+      "human_author": "Devendra Pratap Singh <dps.manir@gmail.com>",
+      "messages": [],
+      "total_additions": 5,
+      "total_deletions": 1,
+      "accepted_lines": 5,
+      "overriden_lines": 0
+    }
+  }
+}

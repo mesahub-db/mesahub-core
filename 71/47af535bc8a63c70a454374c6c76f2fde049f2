@@ -1,0 +1,35 @@
+src/drivers/database/filedb.ts
+  2485273daa8b0521 4-6,11-15
+src/components/gui/context-menu-handler.tsx
+  2485273daa8b0521 43-46
+src/extensions/trigger-editor/index.tsx
+  2485273daa8b0521 32
+src/components/gui/schema-sidebar.tsx
+  2485273daa8b0521 7,111-123
+src/components/gui/schema-sidebar-list.tsx
+  2485273daa8b0521 1,10,162,175-178,190,194,210,227-228,230,249,263-270,272-295,297-318,321
+src/core/extension-manager.tsx
+  2485273daa8b0521 24
+src/extensions/view-editor/index.tsx
+  2485273daa8b0521 31
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.7",
+  "base_commit_sha": "7147af535bc8a63c70a454374c6c76f2fde049f2",
+  "prompts": {
+    "2485273daa8b0521": {
+      "agent_id": {
+        "tool": "github-copilot",
+        "id": "6799d995-357e-457c-a710-bc5813c4453a",
+        "model": "copilot/claude-sonnet-4.6"
+      },
+      "human_author": "Devendra Pratap Singh <dps.manir@gmail.com>",
+      "messages": [],
+      "total_additions": 102,
+      "total_deletions": 13,
+      "accepted_lines": 98,
+      "overriden_lines": 1
+    }
+  }
+}

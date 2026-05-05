@@ -1,0 +1,57 @@
+README.md
+  7236f2eb49da25a8 1,48-49
+src/app/login/page.tsx
+  7236f2eb49da25a8 42
+packages/sqlite-hub-client/src/index.ts
+  7236f2eb49da25a8 1-31
+packages/sqlite-hub-client/package.json
+  7236f2eb49da25a8 4,11
+src/app/api/db/[name]/exec/route.ts
+  7236f2eb49da25a8 2,20-21
+packages/sqlite-hub-client/src/database.ts
+  7236f2eb49da25a8 1-332
+src/app/(admin)/layout.tsx
+  7236f2eb49da25a8 9-10
+src/app/layout.tsx
+  7236f2eb49da25a8 10
+RAILWAY.md
+  7236f2eb49da25a8 1,3,5,7,15,18,22,28,31,40,46,50
+.env.example
+  7236f2eb49da25a8 2
+src/components/gui/sidebar-tab.tsx
+  7236f2eb49da25a8 57
+src/app/api/db/[name]/query/route.ts
+  7236f2eb49da25a8 2,24-25
+src/lib/registry.ts
+  7236f2eb49da25a8 20,25-31,40,53-57,59
+src/app/api/db/route.ts
+  7236f2eb49da25a8 9,40,44,75-80,82-86
+src/middleware.ts
+  7236f2eb49da25a8 7-9,21-22,25-26
+src/lib/auth.ts
+  7236f2eb49da25a8 1-77
+src/const.ts
+  7236f2eb49da25a8 8
+packages/sqlite-hub-client/src/adapters/http.ts
+  7236f2eb49da25a8 5,7,16,48
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.7",
+  "base_commit_sha": "4815afb0b0c53edb0a66c6a84639917ace809a25",
+  "prompts": {
+    "7236f2eb49da25a8": {
+      "agent_id": {
+        "tool": "github-copilot",
+        "id": "02227c12-67a9-4e4b-8f00-8f490f8f4bf9",
+        "model": "copilot/claude-sonnet-4.6"
+      },
+      "human_author": "Devendra Pratap Singh <dps.manir@gmail.com>",
+      "messages": [],
+      "total_additions": 542,
+      "total_deletions": 60,
+      "accepted_lines": 515,
+      "overriden_lines": 0
+    }
+  }
+}

@@ -1,0 +1,38 @@
+src/app/(admin)/db/[name]/settings/page.tsx
+  6ca5467e1b3d513f 34-35,105-122,332-395,397
+src/app/api/db/[name]/route.ts
+  6ca5467e1b3d513f 7,66-88
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.22",
+  "base_commit_sha": "14606e9d66088d4fec0db248a159cb5258834c28",
+  "prompts": {
+    "5daf792ef38ec4fa": {
+      "agent_id": {
+        "tool": "github-copilot",
+        "id": "e321bd58-8c5e-4265-945d-ce8c5b2fb023",
+        "model": "copilot/auto"
+      },
+      "human_author": "Devendra Pratap Singh <dps.manir@gmail.com>",
+      "messages": [],
+      "total_additions": 0,
+      "total_deletions": 0,
+      "accepted_lines": 1,
+      "overriden_lines": 0
+    },
+    "6ca5467e1b3d513f": {
+      "agent_id": {
+        "tool": "cursor",
+        "id": "973efc2d-355e-47ce-9807-a9c8ad076968",
+        "model": "claude-4.5-haiku"
+      },
+      "human_author": "Devendra Pratap Singh <dps.manit@gmail.com>",
+      "messages": [],
+      "total_additions": 109,
+      "total_deletions": 25,
+      "accepted_lines": 109,
+      "overriden_lines": 0
+    }
+  }
+}

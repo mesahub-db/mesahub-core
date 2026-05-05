@@ -1,0 +1,37 @@
+src/app/api/db/[name]/files/[id]/route.ts
+  5daf792ef38ec4fa 112,114
+docs/FILE_STORAGE.md
+  5daf792ef38ec4fa 1-193,196-374
+packages/sqlite-hub-client/README.md
+  5daf792ef38ec4fa 23-41,328-387,429-434
+packages/sqlite-hub-client/src/files.ts
+  5daf792ef38ec4fa 107,247
+src/lib/file-access-token.ts
+  5daf792ef38ec4fa 23,29,107
+src/app/(admin)/db/[name]/files/page.tsx
+  5daf792ef38ec4fa 5-28,47-60,62-77,83-84,87-100,110,117-127,175,192,210-282,284-346,348-355,357,367,384,410-420,422,424,426-430,449,453-471,473-478,480-481,488,494-495,500,502,506-508,510-518,524,526,531,533-542,544,547-552,554-599,602,605-608,610,614-616,618,623-632,637-793
+src/app/api/db/[name]/tokens/files/route.ts
+  5daf792ef38ec4fa 13,33
+.env.example
+  5daf792ef38ec4fa 47-50,55-58
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.8",
+  "base_commit_sha": "fa301abfd77fe8234dbfaecf0f0b5f394fb8497f",
+  "prompts": {
+    "5daf792ef38ec4fa": {
+      "agent_id": {
+        "tool": "github-copilot",
+        "id": "e321bd58-8c5e-4265-945d-ce8c5b2fb023",
+        "model": "copilot/auto"
+      },
+      "human_author": "Devendra Pratap Singh <dps.manir@gmail.com>",
+      "messages": [],
+      "total_additions": 1095,
+      "total_deletions": 298,
+      "accepted_lines": 1015,
+      "overriden_lines": 1
+    }
+  }
+}

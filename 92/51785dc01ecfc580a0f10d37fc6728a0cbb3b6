@@ -1,0 +1,16 @@
+.github/workflows/docker-publish.yaml
+  h_d60f3499e5a1c3 15,17-19,36,39-41,47
+railway.json
+  h_d60f3499e5a1c3 5
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.3.2",
+  "base_commit_sha": "9251785dc01ecfc580a0f10d37fc6728a0cbb3b6",
+  "prompts": {},
+  "humans": {
+    "h_d60f3499e5a1c3": {
+      "author": "Devendra Pratap Singh"
+    }
+  }
+}

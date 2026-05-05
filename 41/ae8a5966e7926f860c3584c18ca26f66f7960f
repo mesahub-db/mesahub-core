@@ -1,0 +1,31 @@
+package.json
+  bfdb913a099786cf 2-5,12
+src/app/layout.tsx
+  bfdb913a099786cf 9-10
+src/const.ts
+  bfdb913a099786cf 8-9
+.github/workflows/check.yaml
+  bfdb913a099786cf 6
+README.md
+  bfdb913a099786cf 1,3,5,7,9-107
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.7",
+  "base_commit_sha": "41ae8a5966e7926f860c3584c18ca26f66f7960f",
+  "prompts": {
+    "bfdb913a099786cf": {
+      "agent_id": {
+        "tool": "github-copilot",
+        "id": "5347ac22-c7cf-4fa5-8e9d-16975b6bd32a",
+        "model": "copilot/claude-sonnet-4.6"
+      },
+      "human_author": "Devendra Pratap Singh <dps.manir@gmail.com>",
+      "messages": [],
+      "total_additions": 114,
+      "total_deletions": 49,
+      "accepted_lines": 114,
+      "overriden_lines": 0
+    }
+  }
+}

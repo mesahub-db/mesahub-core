@@ -1,0 +1,23 @@
+.dockerignore
+  7236f2eb49da25a8 3-10
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.7",
+  "base_commit_sha": "d02ce843bcd7afae0b4aea34717bf80aa85cd29e",
+  "prompts": {
+    "7236f2eb49da25a8": {
+      "agent_id": {
+        "tool": "github-copilot",
+        "id": "02227c12-67a9-4e4b-8f00-8f490f8f4bf9",
+        "model": "copilot/claude-sonnet-4.6"
+      },
+      "human_author": "Devendra Pratap Singh <dps.manir@gmail.com>",
+      "messages": [],
+      "total_additions": 9,
+      "total_deletions": 1,
+      "accepted_lines": 8,
+      "overriden_lines": 0
+    }
+  }
+}

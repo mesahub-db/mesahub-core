@@ -1,0 +1,27 @@
+.github/workflows/check.yaml
+  7236f2eb49da25a8 39
+railway.toml
+  7236f2eb49da25a8 8-11
+.github/workflows/docker-publish.yaml
+  7236f2eb49da25a8 1-64
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.7",
+  "base_commit_sha": "29b981a80de4264771211d67207a2197be6b99f1",
+  "prompts": {
+    "7236f2eb49da25a8": {
+      "agent_id": {
+        "tool": "github-copilot",
+        "id": "02227c12-67a9-4e4b-8f00-8f490f8f4bf9",
+        "model": "copilot/claude-sonnet-4.6"
+      },
+      "human_author": "Devendra Pratap Singh <dps.manir@gmail.com>",
+      "messages": [],
+      "total_additions": 76,
+      "total_deletions": 7,
+      "accepted_lines": 74,
+      "overriden_lines": 0
+    }
+  }
+}

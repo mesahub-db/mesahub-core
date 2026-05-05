@@ -1,0 +1,22 @@
+server/handler/import_export.go
+  h_d60f3499e5a1c3 1-388
+server/handler/system.go
+  h_d60f3499e5a1c3 1,8-9,24,49,53-54,172-260
+server/config/config.go
+  h_d60f3499e5a1c3 33-37,56
+server/cmd/server/main.go
+  h_d60f3499e5a1c3 9,111-113,116,134,137,166,169-171,191-194,235-237,242-243,267-274
+server/middleware/middleware.go
+  h_d60f3499e5a1c3 13-14,20-22
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.3.2",
+  "base_commit_sha": "130be8435fcbcb0af8ec979b5aa61177fac3c975",
+  "prompts": {},
+  "humans": {
+    "h_d60f3499e5a1c3": {
+      "author": "Devendra Pratap Singh"
+    }
+  }
+}

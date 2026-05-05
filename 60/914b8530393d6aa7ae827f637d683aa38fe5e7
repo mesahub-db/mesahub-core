@@ -1,0 +1,40 @@
+packages/sqlite-hub-client/src/files.ts
+  fde5b8fc2b23361a 138-139
+packages/sqlite-hub-client/tsconfig.json
+  fde5b8fc2b23361a 6
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.20",
+  "base_commit_sha": "60914b8530393d6aa7ae827f637d683aa38fe5e7",
+  "prompts": {
+    "5daf792ef38ec4fa": {
+      "agent_id": {
+        "tool": "github-copilot",
+        "id": "e321bd58-8c5e-4265-945d-ce8c5b2fb023",
+        "model": "copilot/auto"
+      },
+      "human_author": "Devendra Pratap Singh <dps.manir@gmail.com>",
+      "messages": [],
+      "total_additions": 0,
+      "total_deletions": 0,
+      "accepted_lines": 1,
+      "overriden_lines": 0,
+      "messages_url": "https://usegitai.com/cas/a8a311e2b4534f22118361b8ecfe2c1ea68a1f4f8a10bbcc9b5e96ea37d42cc5"
+    },
+    "fde5b8fc2b23361a": {
+      "agent_id": {
+        "tool": "github-copilot",
+        "id": "cd09ad96-32d6-42fb-b942-7213339f4bd2",
+        "model": "copilot/claude-sonnet-4.6"
+      },
+      "human_author": "Devendra Pratap Singh <dps.manit@gmail.com>",
+      "messages": [],
+      "total_additions": 3,
+      "total_deletions": 3,
+      "accepted_lines": 3,
+      "overriden_lines": 0,
+      "messages_url": "https://usegitai.com/cas/62851409ff5eaf05251929c6ace7112956465185f2715d63030d2fbc96881a5c"
+    }
+  }
+}

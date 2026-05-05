@@ -1,0 +1,30 @@
+server/files/storage.go
+  h_d60f3499e5a1c3 86,145-154
+server/files/bucket_storage.go
+  h_d60f3499e5a1c3 6,8,10-39,52-66,111-154
+server/filetoken/filetoken.go
+  h_d60f3499e5a1c3 34-35,37-41,127,163,175-216
+server/handler/bucket_admin.go
+  h_d60f3499e5a1c3 2-4,19-20,24,31-36,40-41,60-61,70,90-98,100,105-108,133,142,150-153,175,183-186,271,281-282,304,314-315,348-510,512,514-662
+server/cmd/server/main.go
+  h_d60f3499e5a1c3 136,174,180-189,203,205-206,261-262
+server/db/registry.go
+  h_d60f3499e5a1c3 7-8,10-11,18-19,58-59,114-115,169-171,282-315,774,776-780,782-789,791-813,815,817-821,824-833,835-836,952,956,970
+server/handler/tokens.go
+  h_d60f3499e5a1c3 1-2
+server/handler/files.go
+  h_d60f3499e5a1c3 1-2
+server/auth/authorize.go
+  h_d60f3499e5a1c3 196-222
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.3.4",
+  "base_commit_sha": "faef918de9c4c8eb0d3098adbc219379fa6830a5",
+  "prompts": {},
+  "humans": {
+    "h_d60f3499e5a1c3": {
+      "author": "Devendra Pratap Singh"
+    }
+  }
+}

@@ -1,0 +1,23 @@
+PRD.md
+  bfdb913a099786cf 1-47,49-105,107-114,116-126,128-139,141-152,154-181,183-217
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.7",
+  "base_commit_sha": "7ce137a5ca437efa16a833705382a610f7058711",
+  "prompts": {
+    "bfdb913a099786cf": {
+      "agent_id": {
+        "tool": "github-copilot",
+        "id": "5347ac22-c7cf-4fa5-8e9d-16975b6bd32a",
+        "model": "copilot/claude-sonnet-4.6"
+      },
+      "human_author": "Devendra Pratap Singh <dps.manir@gmail.com>",
+      "messages": [],
+      "total_additions": 633,
+      "total_deletions": 75,
+      "accepted_lines": 553,
+      "overriden_lines": 5
+    }
+  }
+}

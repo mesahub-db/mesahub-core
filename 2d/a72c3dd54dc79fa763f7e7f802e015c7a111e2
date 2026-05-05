@@ -1,0 +1,22 @@
+server/handler/db_handler_test.go
+  h_d60f3499e5a1c3 454,456,487,489,514,516
+railway.json
+  h_d60f3499e5a1c3 4-5
+server/handler/db.go
+  h_d60f3499e5a1c3 64-68
+server/handler/system_handler_test.go
+  h_d60f3499e5a1c3 16,47,60-61,67,73,98,113,117,122-123,145,147,149,152-153,161,167
+.github/workflows/docker-publish.yaml
+  h_d60f3499e5a1c3 19-22,24-28,43,51-52,54-55,58-59,67-68,72,76
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.3.2",
+  "base_commit_sha": "2da72c3dd54dc79fa763f7e7f802e015c7a111e2",
+  "prompts": {},
+  "humans": {
+    "h_d60f3499e5a1c3": {
+      "author": "Devendra Pratap Singh"
+    }
+  }
+}

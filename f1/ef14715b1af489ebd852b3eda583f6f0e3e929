@@ -1,0 +1,21 @@
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.8",
+  "base_commit_sha": "f1ef14715b1af489ebd852b3eda583f6f0e3e929",
+  "prompts": {
+    "5daf792ef38ec4fa": {
+      "agent_id": {
+        "tool": "github-copilot",
+        "id": "e321bd58-8c5e-4265-945d-ce8c5b2fb023",
+        "model": "copilot/auto"
+      },
+      "human_author": "Devendra Pratap Singh <dps.manir@gmail.com>",
+      "messages": [],
+      "total_additions": 0,
+      "total_deletions": 0,
+      "accepted_lines": 1,
+      "overriden_lines": 0
+    }
+  }
+}

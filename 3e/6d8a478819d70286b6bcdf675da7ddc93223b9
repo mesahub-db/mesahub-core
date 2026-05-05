@@ -1,0 +1,18 @@
+server/cmd/server/main.go
+  h_d60f3499e5a1c3 183,214
+docker-compose.yml
+  h_d60f3499e5a1c3 23-24,78-79
+LICENSE
+  h_d60f3499e5a1c3 1-91
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.3.4",
+  "base_commit_sha": "3e6d8a478819d70286b6bcdf675da7ddc93223b9",
+  "prompts": {},
+  "humans": {
+    "h_d60f3499e5a1c3": {
+      "author": "Devendra Pratap Singh"
+    }
+  }
+}

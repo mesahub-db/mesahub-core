@@ -1,0 +1,40 @@
+src/app/api/db/[name]/files/[id]/route.ts
+  fde5b8fc2b23361a 89,99-101,104-106,109
+src/app/api/health/route.ts
+  fde5b8fc2b23361a 4
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.19",
+  "base_commit_sha": "e1bb80db785f6c219e271d3e089be3e584346580",
+  "prompts": {
+    "5daf792ef38ec4fa": {
+      "agent_id": {
+        "tool": "github-copilot",
+        "id": "e321bd58-8c5e-4265-945d-ce8c5b2fb023",
+        "model": "copilot/auto"
+      },
+      "human_author": "Devendra Pratap Singh <dps.manir@gmail.com>",
+      "messages": [],
+      "total_additions": 0,
+      "total_deletions": 0,
+      "accepted_lines": 1,
+      "overriden_lines": 0,
+      "messages_url": "https://usegitai.com/cas/a8a311e2b4534f22118361b8ecfe2c1ea68a1f4f8a10bbcc9b5e96ea37d42cc5"
+    },
+    "fde5b8fc2b23361a": {
+      "agent_id": {
+        "tool": "github-copilot",
+        "id": "cd09ad96-32d6-42fb-b942-7213339f4bd2",
+        "model": "copilot/claude-sonnet-4.6"
+      },
+      "human_author": "Devendra Pratap Singh <dps.manit@gmail.com>",
+      "messages": [],
+      "total_additions": 9,
+      "total_deletions": 102,
+      "accepted_lines": 9,
+      "overriden_lines": 0,
+      "messages_url": "https://usegitai.com/cas/86574bd70efd56007e40183efd046bf65cc4e0e52bc0512921062e25c4d0c3f2"
+    }
+  }
+}

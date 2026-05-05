@@ -1,0 +1,31 @@
+src/app/(admin)/layout.tsx
+  bfdb913a099786cf 20
+src/app/(admin)/db/[name]/page.tsx
+  bfdb913a099786cf 24-25,30-31
+src/app/(admin)/page.tsx
+  bfdb913a099786cf 22
+src/app/(admin)/db/new/page.tsx
+  bfdb913a099786cf 39,107
+src/components/gui/sidebar-tab.tsx
+  bfdb913a099786cf 51-52,56-58,77
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.7",
+  "base_commit_sha": "948880f2e1b53abc1ebdc934bef42d2c2521c8d3",
+  "prompts": {
+    "bfdb913a099786cf": {
+      "agent_id": {
+        "tool": "github-copilot",
+        "id": "5347ac22-c7cf-4fa5-8e9d-16975b6bd32a",
+        "model": "copilot/claude-sonnet-4.6"
+      },
+      "human_author": "Devendra Pratap Singh <dps.manir@gmail.com>",
+      "messages": [],
+      "total_additions": 26,
+      "total_deletions": 43,
+      "accepted_lines": 14,
+      "overriden_lines": 0
+    }
+  }
+}

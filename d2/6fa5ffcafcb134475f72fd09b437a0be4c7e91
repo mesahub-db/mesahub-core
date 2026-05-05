@@ -1,0 +1,36 @@
+Dockerfile
+  22108537f36cbdf6 2-4,9
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.8",
+  "base_commit_sha": "d26fa5ffcafcb134475f72fd09b437a0be4c7e91",
+  "prompts": {
+    "22108537f36cbdf6": {
+      "agent_id": {
+        "tool": "github-copilot",
+        "id": "67e55814-e634-4e9a-a7ad-fd58faf491e5",
+        "model": "copilot/gpt-5.3-codex"
+      },
+      "human_author": "Devendra Pratap Singh <dps.manir@gmail.com>",
+      "messages": [],
+      "total_additions": 4,
+      "total_deletions": 2,
+      "accepted_lines": 4,
+      "overriden_lines": 0
+    },
+    "5daf792ef38ec4fa": {
+      "agent_id": {
+        "tool": "github-copilot",
+        "id": "e321bd58-8c5e-4265-945d-ce8c5b2fb023",
+        "model": "copilot/auto"
+      },
+      "human_author": "Devendra Pratap Singh <dps.manir@gmail.com>",
+      "messages": [],
+      "total_additions": 0,
+      "total_deletions": 0,
+      "accepted_lines": 1,
+      "overriden_lines": 0
+    }
+  }
+}

@@ -1,0 +1,25 @@
+src/lib/auth.ts
+  7236f2eb49da25a8 25-29
+Dockerfile
+  7236f2eb49da25a8 21,36
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.7",
+  "base_commit_sha": "807d417c04904bc953cde31e9968aaa1a0aeb2f5",
+  "prompts": {
+    "7236f2eb49da25a8": {
+      "agent_id": {
+        "tool": "github-copilot",
+        "id": "02227c12-67a9-4e4b-8f00-8f490f8f4bf9",
+        "model": "copilot/claude-sonnet-4.6"
+      },
+      "human_author": "Devendra Pratap Singh <dps.manir@gmail.com>",
+      "messages": [],
+      "total_additions": 7,
+      "total_deletions": 3,
+      "accepted_lines": 7,
+      "overriden_lines": 0
+    }
+  }
+}

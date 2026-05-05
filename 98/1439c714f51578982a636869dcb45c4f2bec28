@@ -1,0 +1,90 @@
+src/app/api/db/[name]/files/[id]/route.ts
+  5daf792ef38ec4fa 6,130-135
+packages/sqlite-hub-client/src/index.ts
+  5daf792ef38ec4fa 9-11,13-14,20-21
+src/app/api/db/[name]/tokens/files/revoke/route.ts
+  5daf792ef38ec4fa 1-84
+.env.example
+  5daf792ef38ec4fa 47-48,50-51,54-55,57-64
+src/app/(admin)/db/[name]/files/page.tsx
+  5daf792ef38ec4fa 46-50,116,134-135,138-153,155-160,205-207
+src/lib/auth.ts
+  5daf792ef38ec4fa 7-8,83-84,86
+src/components/gui/schema-sidebar-list.tsx
+  5daf792ef38ec4fa 10,12,137-139,153,162,185-288,346,352-372,387-388,451
+src/app/[dbName]/file/[fileId]/route.ts
+  5daf792ef38ec4fa 1-99
+src/app/api/db/[name]/query/route.ts
+  5daf792ef38ec4fa 6,17-20,44,85
+src/middleware.ts
+  5daf792ef38ec4fa 5-10,15-17,22-52,54,61-63,65-69,72-73,79-80,85-89,94,112-113,119
+packages/sqlite-hub-client/src/files.ts
+  5daf792ef38ec4fa 123-135,268-288
+docs/FILE_STORAGE.md
+  5daf792ef38ec4fa 211,217,219-252
+src/lib/file-url-signing.ts
+  5daf792ef38ec4fa 22,25
+src/lib/file-storage.ts
+  5daf792ef38ec4fa 197-224,287-302,311-324,351-352,411-412,617-635
+src/app/api/db/[name]/exec/route.ts
+  ebfab95fe51ce3fe 8,40-43,170
+src/app/api/openapi/route.ts
+  5daf792ef38ec4fa 1-119
+src/lib/file-access-token.ts
+  5daf792ef38ec4fa 1-2,11,18,54,107,153
+src/app/api/metrics/route.ts
+  ebfab95fe51ce3fe 4,14,16-28,43-44
+src/app/api/db/[name]/files/bulk-delete/route.ts
+  ebfab95fe51ce3fe 3,7,28,32-42,45,49-55,57-64
+packages/sqlite-hub-client/README.md
+  5daf792ef38ec4fa 427-446
+packages/sqlite-hub-client/package.json
+  5daf792ef38ec4fa 3
+src/lib/registry.ts
+  ebfab95fe51ce3fe 28-51,81-84,207-287
+src/app/api/maintenance/cleanup/route.ts
+  5daf792ef38ec4fa 1-33
+src/lib/session.ts
+  5daf792ef38ec4fa 3-10,16
+src/app/api/db/[name]/files/route.ts
+  5daf792ef38ec4fa 6,110-120
+start.sh
+  5daf792ef38ec4fa 62-84,167-189
+src/components/gui/export/export-result-button.tsx
+  5daf792ef38ec4fa 152,157
+src/app/api/db/[name]/tokens/files/route.ts
+  5daf792ef38ec4fa 4,34-40,53-62
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.8",
+  "base_commit_sha": "981439c714f51578982a636869dcb45c4f2bec28",
+  "prompts": {
+    "5daf792ef38ec4fa": {
+      "agent_id": {
+        "tool": "github-copilot",
+        "id": "e321bd58-8c5e-4265-945d-ce8c5b2fb023",
+        "model": "copilot/auto"
+      },
+      "human_author": "Devendra Pratap Singh <dps.manir@gmail.com>",
+      "messages": [],
+      "total_additions": 910,
+      "total_deletions": 66,
+      "accepted_lines": 891,
+      "overriden_lines": 1
+    },
+    "ebfab95fe51ce3fe": {
+      "agent_id": {
+        "tool": "github-copilot",
+        "id": "193787d0-33bc-4d2e-80b9-bf40f2b8e2ae",
+        "model": "copilot/auto"
+      },
+      "human_author": "Devendra Pratap Singh <dps.manir@gmail.com>",
+      "messages": [],
+      "total_additions": 172,
+      "total_deletions": 5,
+      "accepted_lines": 166,
+      "overriden_lines": 1
+    }
+  }
+}
