@@ -48,7 +48,6 @@ jobs:
           tags: |
             type=semver,pattern=v{{version}}
             type=raw,value=latest
-            type=sha,prefix=sha-,format=short
           labels: |
             org.opencontainers.image.source=${{ env.IMAGE_SOURCE }}
             org.opencontainers.image.revision=${{ github.sha }}
