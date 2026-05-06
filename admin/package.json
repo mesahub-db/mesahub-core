@@ -37,7 +37,6 @@
     "@lezer/highlight": "^1.2.3",
     "@lezer/lr": "^1.4.0",
     "@libsql/client": "^0.5.3",
-    "@mesahub/ui": "^0.1.1",
     "@outerbase/sdk-transform": "^1.0.5",
     "@phosphor-icons/react": "^2.1.7",
     "@radix-ui/react-alert-dialog": "^1.0.5",
