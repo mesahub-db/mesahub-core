@@ -7,7 +7,7 @@ RUN apk add --no-cache python3 make g++
 
 WORKDIR /app/admin
 COPY admin/package.json admin/pnpm-lock.yaml ./
-RUN corepack enable pnpm && pnpm install --frozen-lockfile
+RUN npm install -g pnpm && pnpm install --frozen-lockfile
 
 COPY admin/ .
 
@@ -39,11 +39,11 @@ RUN CGO_ENABLED=1 GOOS=linux go build -o mesahub-server ./cmd/server
 FROM node:24-alpine AS dashboard-dev
 
 RUN apk add --no-cache curl python3 make g++ && \
-    corepack enable pnpm
+    npm install -g pnpm
 
 WORKDIR /app
 COPY admin/package.json admin/pnpm-lock.yaml ./
-RUN pnpm install --frozen-lockfile
+RUN npm install -g pnpm && pnpm install --frozen-lockfile
 
 COPY admin/ .
 
