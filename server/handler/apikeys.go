@@ -56,7 +56,7 @@ func (h *APIKeysHandler) CreateAPIKey(w http.ResponseWriter, r *http.Request) {
 	}
 
 	hash := sha256Hex(raw)
-	id := uuid.New().String()
+	id := uuid.Must(uuid.NewV7()).String()
 
 	scopesJSON := `["all:w"]`
 	if len(body.Scopes) > 0 {

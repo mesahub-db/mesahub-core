@@ -96,7 +96,7 @@ func (h *BucketAdminHandler) CreateBucket(w http.ResponseWriter, r *http.Request
 		backend = "local"
 	}
 
-	id := uuid.New().String()
+	id := uuid.Must(uuid.NewV7()).String()
 	rec, rawKey, err := h.registry.InsertBucket(id, body.Name, body.Slug, body.Owner, body.Source, body.InstanceID, body.Description, backend)
 	if err != nil {
 		ErrorJSON(w, http.StatusConflict, err.Error())
