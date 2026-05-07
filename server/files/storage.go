@@ -251,7 +251,7 @@ func (s *Storage) Upload(in UploadInput) (UploadResult, error) {
 
 	// 10. Persist metadata
 	now := NowUTC()
-	newID := uuid.NewString()
+	newID := uuid.Must(uuid.NewV7()).String()
 	rec := &StoredFile{
 		ID:          newID,
 		DBName:      in.DBName,

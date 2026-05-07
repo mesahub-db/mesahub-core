@@ -781,7 +781,7 @@ func (r *Registry) InsertBucket(id, name, slug, owner, source string, instanceID
 	if err != nil {
 		return nil, "", fmt.Errorf("generate bucket key: %w", err)
 	}
-	keyID := uuid.New().String()
+	keyID := uuid.Must(uuid.NewV7()).String()
 	scopeJSON := fmt.Sprintf(`["bucket:%s:w"]`, slug)
 
 	tx, err := r.db.Begin()

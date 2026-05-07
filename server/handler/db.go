@@ -101,7 +101,7 @@ func (h *DBHandler) CreateDB(w http.ResponseWriter, r *http.Request) {
 		desc = &d
 	}
 
-	id := uuid.New().String()
+	id := uuid.Must(uuid.NewV7()).String()
 	record, err := h.registry.InsertDatabase(id, body.Name, body.Slug, body.Owner, body.Source, body.InstanceID, desc)
 	if err != nil {
 		ErrorJSON(w, http.StatusInternalServerError, err.Error())
