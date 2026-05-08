@@ -6,8 +6,8 @@ FROM node:24-alpine AS ui-builder
 RUN apk add --no-cache python3 make g++
 
 WORKDIR /app/admin
-COPY admin/package.json admin/pnpm-lock.yaml ./
-RUN npm install -g pnpm && pnpm install --frozen-lockfile
+COPY admin/package.json admin/pnpm-lock.yaml admin/pnpm-workspace.yaml ./
+RUN npm install -g pnpm && pnpm install --no-frozen-lockfile
 
 COPY admin/ .
 
