@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "description": "Centralized SQLite storage service for internal Railway workloads",
   "private": true,
-  "packageManager": "pnpm@10.0.0",
+  "packageManager": "pnpm@11.0.0",
   "scripts": {
     "dev": "next dev --turbopack",
     "build": "next build",
@@ -16,7 +16,9 @@
   "pnpm": {
     "onlyBuiltDependencies": [
       "better-sqlite3",
-      "sharp"
+      "esbuild",
+      "sharp",
+      "unrs-resolver"
     ]
   },
   "dependencies": {
