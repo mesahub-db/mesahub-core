@@ -264,11 +264,20 @@ func (r *redisClient) DeleteKey(ctx context.Context, key string) error {
 
 // ── Factory ───────────────────────────────────────────────────────────────────
 
-// New returns a cache Client. If redisURL is non-empty a Redis-backed client
-// is returned; otherwise a no-op client is returned.
+// New returns a cache Client. If redisURL is non-empty a Redis-backed L2 is
+// used; otherwise a no-op L2 is used. Either way the result is wrapped in a
+// tieredClient so hot data (API keys, sessions) is served from in-process
+// memory (L1) without a Redis round-trip on every request.
 func New(redisURL string) (Client, error) {
-	if redisURL == "" {
-		return &noopClient{}, nil
+	var l2 Client
+	var err error
+	if redisURL != "" {
+		l2, err = NewRedis(redisURL)
+		if err != nil {
+			return nil, err
+		}
+	} else {
+		l2 = &noopClient{}
 	}
-	return NewRedis(redisURL)
+	return NewTiered(l2), nil
 }
