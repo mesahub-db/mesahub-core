@@ -325,10 +325,10 @@ func (r *Registry) DB() *sql.DB { return r.db }
 func (r *Registry) SetCache(c cache.Client) { r.cache = c }
 
 // dbListKey returns the Redis key for a user's database list.
-func dbListKey(owner string) string { return "sh:dbs:" + owner }
+func dbListKey(owner string) string { return "MH::sh:dbs:" + owner }
 
 // bucketListKey returns the Redis key for a user's bucket list.
-func bucketListKey(owner string) string { return "sh:buckets:" + owner }
+func bucketListKey(owner string) string { return "MH::sh:buckets:" + owner }
 
 const listCacheTTL = 5 * time.Minute
 

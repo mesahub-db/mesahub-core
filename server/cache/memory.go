@@ -21,6 +21,7 @@ import (
 	"time"
 
 	"github.com/jellydator/ttlcache/v3"
+	"golang.org/x/sync/singleflight"
 )
 
 // ── memClient ─────────────────────────────────────────────────────────────────
@@ -160,9 +161,18 @@ func (m *memClient) DeleteKey(_ context.Context, key string) error {
 
 // ── tieredClient ──────────────────────────────────────────────────────────────
 
+// tieredClient wraps an in-process L1 (memClient) in front of any L2 Client.
+//
+// Singleflight groups prevent cache stampedes: if N goroutines concurrently
+// miss L1 for the same key, only one L2 fetch is issued. The rest wait and
+// share the result. One group per value type avoids cross-type key collisions.
 type tieredClient struct {
-	l1 *memClient
-	l2 Client
+	l1     *memClient
+	l2     Client
+	sfKey  singleflight.Group // API keys
+	sfSess singleflight.Group // sessions
+	sfPKCE singleflight.Group // PKCE
+	sfJSON singleflight.Group // generic JSON
 }
 
 // NewTiered returns a Client that checks an in-process L1 cache (memClient)
@@ -186,11 +196,19 @@ func (t *tieredClient) GetAPIKey(ctx context.Context, hash string) (*APIKeyValue
 	if v, err := t.l1.GetAPIKey(ctx, hash); v != nil || err != nil {
 		return v, err
 	}
-	v, err := t.l2.GetAPIKey(ctx, hash)
-	if v != nil && err == nil {
-		_ = t.l1.SetAPIKey(ctx, hash, *v, 15*time.Minute)
+	// Singleflight: collapse concurrent L2 fetches for the same key into one.
+	type result struct{ v *APIKeyValue }
+	v, err, _ := t.sfKey.Do(hash, func() (any, error) {
+		v, err := t.l2.GetAPIKey(ctx, hash)
+		if v != nil && err == nil {
+			_ = t.l1.SetAPIKey(ctx, hash, *v, 15*time.Minute)
+		}
+		return result{v}, err
+	})
+	if err != nil {
+		return nil, err
 	}
-	return v, err
+	return v.(result).v, nil
 }
 
 func (t *tieredClient) DeleteAPIKey(ctx context.Context, hash string) error {
@@ -209,11 +227,18 @@ func (t *tieredClient) GetSession(ctx context.Context, id string) (*SessionValue
 	if v, err := t.l1.GetSession(ctx, id); v != nil || err != nil {
 		return v, err
 	}
-	v, err := t.l2.GetSession(ctx, id)
-	if v != nil && err == nil {
-		_ = t.l1.SetSession(ctx, id, *v, 30*time.Minute)
+	type result struct{ v *SessionValue }
+	v, err, _ := t.sfSess.Do(id, func() (any, error) {
+		v, err := t.l2.GetSession(ctx, id)
+		if v != nil && err == nil {
+			_ = t.l1.SetSession(ctx, id, *v, 30*time.Minute)
+		}
+		return result{v}, err
+	})
+	if err != nil {
+		return nil, err
 	}
-	return v, err
+	return v.(result).v, nil
 }
 
 func (t *tieredClient) DeleteSession(ctx context.Context, id string) error {
@@ -232,11 +257,18 @@ func (t *tieredClient) GetPKCE(ctx context.Context, state string) (*PKCEValue, e
 	if v, err := t.l1.GetPKCE(ctx, state); v != nil || err != nil {
 		return v, err
 	}
-	v, err := t.l2.GetPKCE(ctx, state)
-	if v != nil && err == nil {
-		_ = t.l1.SetPKCE(ctx, state, *v, 10*time.Minute)
+	type result struct{ v *PKCEValue }
+	v, err, _ := t.sfPKCE.Do(state, func() (any, error) {
+		v, err := t.l2.GetPKCE(ctx, state)
+		if v != nil && err == nil {
+			_ = t.l1.SetPKCE(ctx, state, *v, 10*time.Minute)
+		}
+		return result{v}, err
+	})
+	if err != nil {
+		return nil, err
 	}
-	return v, err
+	return v.(result).v, nil
 }
 
 func (t *tieredClient) DeletePKCE(ctx context.Context, state string) error {
@@ -262,12 +294,37 @@ func (t *tieredClient) GetJSON(ctx context.Context, key string, v any) (bool, er
 	if hit, err := t.l1.GetJSON(ctx, key, v); hit || err != nil {
 		return hit, err
 	}
-	// L2 miss path: we need the raw bytes to backfill L1, so re-marshal after L2 hit.
-	hit, err := t.l2.GetJSON(ctx, key, v)
-	if hit && err == nil {
-		_ = t.l1.SetJSON(ctx, key, v, 5*time.Minute)
+	// Use singleflight to collapse concurrent L2 fetches.
+	// We fetch raw JSON bytes from L2 so we can share the result across callers
+	// and unmarshal independently into each caller's v.
+	type result struct{ raw []byte }
+	shared, err, _ := t.sfJSON.Do(key, func() (any, error) {
+		var tmp map[string]any
+		hit, err := t.l2.GetJSON(ctx, key, &tmp)
+		if !hit || err != nil {
+			return result{}, err
+		}
+		b, err := json.Marshal(tmp)
+		if err != nil {
+			return result{}, err
+		}
+		// Backfill L1 from raw bytes.
+		var backfill map[string]any
+		_ = json.Unmarshal(b, &backfill)
+		_ = t.l1.SetJSON(ctx, key, backfill, 5*time.Minute)
+		return result{b}, nil
+	})
+	if err != nil {
+		return false, err
 	}
-	return hit, err
+	b := shared.(result).raw
+	if len(b) == 0 {
+		return false, nil
+	}
+	if err := json.Unmarshal(b, v); err != nil {
+		return false, err
+	}
+	return true, nil
 }
 
 func (t *tieredClient) DeleteKey(ctx context.Context, key string) error {

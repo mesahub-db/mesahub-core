@@ -1,7 +1,7 @@
 // Package auth — session.go manages the admin session cookie.
 //
 // Two modes:
-//   - Redis present  → opaque random token stored at sh:session:{token}
+//   - Redis present  → opaque random token stored at MH::sh:session:{token}
 //   - Redis absent   → signed JWT stored directly as the cookie value
 //
 // Both modes use the same cookie name so the browser experience is identical.

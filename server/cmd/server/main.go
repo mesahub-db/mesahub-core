@@ -60,11 +60,11 @@ func main() {
 		log.Fatal().Err(err).Msg("cache init failed")
 	}
 	{
-		mode := cache.ModeOff
+		l2mode := cache.ModeOff
 		if cfg.RedisURL != "" {
-			mode = cache.ModeRedis
+			l2mode = cache.ModeRedis
 		}
-		log.Info().Str("mode", mode).Bool("available", cacheClient.Available()).Msg("cache ready")
+		log.Info().Str("l1", "memory").Str("l2", l2mode).Bool("available", cacheClient.Available()).Msg("cache ready")
 	}
 
 	// ── DB pool ───────────────────────────────────────────────────────────────
