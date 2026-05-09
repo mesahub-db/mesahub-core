@@ -150,11 +150,11 @@ func (r *redisClient) SetSession(ctx context.Context, id string, v SessionValue,
 	if err != nil {
 		return err
 	}
-	return r.rdb.Set(ctx, "sh:session:"+id, b, ttl).Err()
+	return r.rdb.Set(ctx, "MH::sh:session:"+id, b, ttl).Err()
 }
 
 func (r *redisClient) GetSession(ctx context.Context, id string) (*SessionValue, error) {
-	b, err := r.rdb.Get(ctx, "sh:session:"+id).Bytes()
+	b, err := r.rdb.Get(ctx, "MH::sh:session:"+id).Bytes()
 	if err == redis.Nil {
 		return nil, nil
 	}
@@ -169,7 +169,7 @@ func (r *redisClient) GetSession(ctx context.Context, id string) (*SessionValue,
 }
 
 func (r *redisClient) DeleteSession(ctx context.Context, id string) error {
-	return r.rdb.Del(ctx, "sh:session:"+id).Err()
+	return r.rdb.Del(ctx, "MH::sh:session:"+id).Err()
 }
 
 func (r *redisClient) SetAPIKey(ctx context.Context, hash string, v APIKeyValue, ttl time.Duration) error {
@@ -177,11 +177,11 @@ func (r *redisClient) SetAPIKey(ctx context.Context, hash string, v APIKeyValue,
 	if err != nil {
 		return err
 	}
-	return r.rdb.Set(ctx, "sh:apikey:"+hash, b, ttl).Err()
+	return r.rdb.Set(ctx, "MH::sh:apikey:"+hash, b, ttl).Err()
 }
 
 func (r *redisClient) GetAPIKey(ctx context.Context, hash string) (*APIKeyValue, error) {
-	b, err := r.rdb.Get(ctx, "sh:apikey:"+hash).Bytes()
+	b, err := r.rdb.Get(ctx, "MH::sh:apikey:"+hash).Bytes()
 	if err == redis.Nil {
 		return nil, nil
 	}
@@ -200,11 +200,11 @@ func (r *redisClient) SetPKCE(ctx context.Context, state string, v PKCEValue, tt
 	if err != nil {
 		return err
 	}
-	return r.rdb.Set(ctx, "sh:pkce:"+state, b, ttl).Err()
+	return r.rdb.Set(ctx, "MH::sh:pkce:"+state, b, ttl).Err()
 }
 
 func (r *redisClient) GetPKCE(ctx context.Context, state string) (*PKCEValue, error) {
-	b, err := r.rdb.Get(ctx, "sh:pkce:"+state).Bytes()
+	b, err := r.rdb.Get(ctx, "MH::sh:pkce:"+state).Bytes()
 	if err == redis.Nil {
 		return nil, nil
 	}
@@ -219,17 +219,17 @@ func (r *redisClient) GetPKCE(ctx context.Context, state string) (*PKCEValue, er
 }
 
 func (r *redisClient) DeleteAPIKey(ctx context.Context, hash string) error {
-	return r.rdb.Del(ctx, "sh:apikey:"+hash).Err()
+	return r.rdb.Del(ctx, "MH::sh:apikey:"+hash).Err()
 }
 
 func (r *redisClient) DeletePKCE(ctx context.Context, state string) error {
-	return r.rdb.Del(ctx, "sh:pkce:"+state).Err()
+	return r.rdb.Del(ctx, "MH::sh:pkce:"+state).Err()
 }
 
 func (r *redisClient) IncrRateLimit(ctx context.Context, key string, ttl time.Duration) (int64, error) {
 	pipe := r.rdb.Pipeline()
-	incr := pipe.Incr(ctx, "sh:ratelimit:"+key)
-	pipe.Expire(ctx, "sh:ratelimit:"+key, ttl)
+	incr := pipe.Incr(ctx, "MH::sh:ratelimit:"+key)
+	pipe.Expire(ctx, "MH::sh:ratelimit:"+key, ttl)
 	if _, err := pipe.Exec(ctx); err != nil {
 		return 0, err
 	}
