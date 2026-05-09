@@ -1,0 +1,29 @@
+server/go.mod
+  s_0329c12d3cb7a7::t_bc6e0343a4a4c4 17,21
+server/cache/cache.go
+  s_0329c12d3cb7a7::t_89e459f343ab82 267-270,272-280,282
+server/cache/memory.go
+  s_0329c12d3cb7a7::t_c243c7c09e3e3c 268
+  h_7a2f4c8f0473b8 1-267,269-276
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.4.4",
+  "base_commit_sha": "27736f7ef958381ffadab553788b93d5764b2ee8",
+  "prompts": {},
+  "humans": {
+    "h_7a2f4c8f0473b8": {
+      "author": "Devendra Pratap Singh <dps.manit@gmail.com>"
+    }
+  },
+  "sessions": {
+    "s_0329c12d3cb7a7": {
+      "agent_id": {
+        "tool": "github-copilot",
+        "id": "b6212e7f-621d-4e15-bf87-1f7bc9edb0c4",
+        "model": "unknown"
+      },
+      "human_author": "Devendra Pratap Singh <dps.manit@gmail.com>"
+    }
+  }
+}
