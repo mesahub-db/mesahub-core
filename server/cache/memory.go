@@ -175,6 +175,10 @@ type tieredClient struct {
 	sfJSON singleflight.Group // generic JSON
 }
 
+// l1TTL is how long any value is kept in the in-process L1 cache.
+// L2 (Redis) uses the TTL supplied by each call site (typically longer).
+const l1TTL = 5 * time.Minute
+
 // NewTiered returns a Client that checks an in-process L1 cache (memClient)
 // before delegating to l2 (Redis or noop). All writes go to both tiers;
 // all deletes evict from both tiers. Rate limiting always goes to l2.
@@ -188,7 +192,7 @@ func (t *tieredClient) Ping(ctx context.Context) error { return t.l2.Ping(ctx) }
 // ── API keys ──────────────────────────────────────────────────────────────────
 
 func (t *tieredClient) SetAPIKey(ctx context.Context, hash string, v APIKeyValue, ttl time.Duration) error {
-	_ = t.l1.SetAPIKey(ctx, hash, v, ttl)
+	_ = t.l1.SetAPIKey(ctx, hash, v, l1TTL)
 	return t.l2.SetAPIKey(ctx, hash, v, ttl)
 }
 
@@ -201,7 +205,7 @@ func (t *tieredClient) GetAPIKey(ctx context.Context, hash string) (*APIKeyValue
 	v, err, _ := t.sfKey.Do(hash, func() (any, error) {
 		v, err := t.l2.GetAPIKey(ctx, hash)
 		if v != nil && err == nil {
-			_ = t.l1.SetAPIKey(ctx, hash, *v, 15*time.Minute)
+			_ = t.l1.SetAPIKey(ctx, hash, *v, l1TTL)
 		}
 		return result{v}, err
 	})
@@ -219,7 +223,7 @@ func (t *tieredClient) DeleteAPIKey(ctx context.Context, hash string) error {
 // ── Sessions ──────────────────────────────────────────────────────────────────
 
 func (t *tieredClient) SetSession(ctx context.Context, id string, v SessionValue, ttl time.Duration) error {
-	_ = t.l1.SetSession(ctx, id, v, ttl)
+	_ = t.l1.SetSession(ctx, id, v, l1TTL)
 	return t.l2.SetSession(ctx, id, v, ttl)
 }
 
@@ -231,7 +235,7 @@ func (t *tieredClient) GetSession(ctx context.Context, id string) (*SessionValue
 	v, err, _ := t.sfSess.Do(id, func() (any, error) {
 		v, err := t.l2.GetSession(ctx, id)
 		if v != nil && err == nil {
-			_ = t.l1.SetSession(ctx, id, *v, 30*time.Minute)
+			_ = t.l1.SetSession(ctx, id, *v, l1TTL)
 		}
 		return result{v}, err
 	})
@@ -249,7 +253,7 @@ func (t *tieredClient) DeleteSession(ctx context.Context, id string) error {
 // ── PKCE ──────────────────────────────────────────────────────────────────────
 
 func (t *tieredClient) SetPKCE(ctx context.Context, state string, v PKCEValue, ttl time.Duration) error {
-	_ = t.l1.SetPKCE(ctx, state, v, ttl)
+	_ = t.l1.SetPKCE(ctx, state, v, l1TTL)
 	return t.l2.SetPKCE(ctx, state, v, ttl)
 }
 
@@ -261,7 +265,7 @@ func (t *tieredClient) GetPKCE(ctx context.Context, state string) (*PKCEValue, e
 	v, err, _ := t.sfPKCE.Do(state, func() (any, error) {
 		v, err := t.l2.GetPKCE(ctx, state)
 		if v != nil && err == nil {
-			_ = t.l1.SetPKCE(ctx, state, *v, 10*time.Minute)
+			_ = t.l1.SetPKCE(ctx, state, *v, l1TTL)
 		}
 		return result{v}, err
 	})
@@ -286,7 +290,7 @@ func (t *tieredClient) IncrRateLimit(ctx context.Context, key string, ttl time.D
 // ── Generic JSON ──────────────────────────────────────────────────────────────
 
 func (t *tieredClient) SetJSON(ctx context.Context, key string, v any, ttl time.Duration) error {
-	_ = t.l1.SetJSON(ctx, key, v, ttl)
+	_ = t.l1.SetJSON(ctx, key, v, l1TTL)
 	return t.l2.SetJSON(ctx, key, v, ttl)
 }
 
@@ -311,7 +315,7 @@ func (t *tieredClient) GetJSON(ctx context.Context, key string, v any) (bool, er
 		// Backfill L1 from raw bytes.
 		var backfill map[string]any
 		_ = json.Unmarshal(b, &backfill)
-		_ = t.l1.SetJSON(ctx, key, backfill, 5*time.Minute)
+		_ = t.l1.SetJSON(ctx, key, backfill, l1TTL)
 		return result{b}, nil
 	})
 	if err != nil {
