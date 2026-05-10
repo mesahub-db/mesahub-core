@@ -7,15 +7,20 @@ import (
 	"fmt"
 	"time"
 
+	"github.com/0xdps/mesahub-core/config"
 	"github.com/golang-jwt/jwt/v5"
 )
 
 const (
-	// SessionCookieName is the cookie name shared with the Next.js iron-session.
-	SessionCookieName = "sqlitedbhub_session"
 	// sessionTTL is the lifetime of a newly issued session.
 	sessionTTL = 24 * time.Hour
 )
+
+// CookieName returns the admin session cookie name derived from cfg.CookiePrefix.
+// With the default prefix "sqlitedbhub" this is "sqlitedbhub_session".
+func CookieName(cfg *config.Config) string {
+	return cfg.CookiePrefix + "_session"
+}
 
 // Claims is the JWT payload stored inside a cookie-based admin session.
 type Claims struct {

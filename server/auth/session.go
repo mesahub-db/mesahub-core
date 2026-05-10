@@ -44,7 +44,7 @@ func IssueSession(w http.ResponseWriter, r *http.Request, cfg *config.Config, c 
 	// SECURE_COOKIES=true must be set explicitly in production Go deployments.
 	// NODE_ENV is a Node.js convention and is not reliable in a Go process.
 	http.SetCookie(w, &http.Cookie{
-		Name:     SessionCookieName,
+		Name:     CookieName(cfg),
 		Value:    cookieVal,
 		MaxAge:   int(sessionTTL.Seconds()),
 		HttpOnly: true,
@@ -58,7 +58,7 @@ func IssueSession(w http.ResponseWriter, r *http.Request, cfg *config.Config, c 
 // ValidateSession reads the session cookie and returns true if the session is
 // valid. Returns (false, nil) when no cookie is present.
 func ValidateSession(r *http.Request, cfg *config.Config, c cache.Client) (bool, error) {
-	cookie, err := r.Cookie(SessionCookieName)
+	cookie, err := r.Cookie(CookieName(cfg))
 	if err != nil {
 		return false, nil
 	}
@@ -78,11 +78,11 @@ func ValidateSession(r *http.Request, cfg *config.Config, c cache.Client) (bool,
 // DestroySession deletes the Redis session entry (if present) and clears the
 // cookie in the browser.
 func DestroySession(w http.ResponseWriter, r *http.Request, cfg *config.Config, c cache.Client) {
-	if cookie, err := r.Cookie(SessionCookieName); err == nil && c.Available() {
+	if cookie, err := r.Cookie(CookieName(cfg)); err == nil && c.Available() {
 		_ = c.DeleteSession(r.Context(), cookie.Value)
 	}
 	http.SetCookie(w, &http.Cookie{
-		Name:     SessionCookieName,
+		Name:     CookieName(cfg),
 		Value:    "",
 		MaxAge:   -1,
 		HttpOnly: true,

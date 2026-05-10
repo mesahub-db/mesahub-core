@@ -8,13 +8,15 @@ if (!sessionSecret || sessionSecret.length < 32 || sessionSecret.includes("chang
   );
 }
 
+const cookiePrefix = process.env.COOKIE_PREFIX || "sqlitedbhub";
+
 export interface SessionData {
   isLoggedIn: boolean;
 }
 
 export const sessionOptions: SessionOptions = {
   password: sessionSecret,
-  cookieName: "sqlitedbhub_session",
+  cookieName: `${cookiePrefix}_session`,
   cookieOptions: {
     secure: process.env.NODE_ENV === "production",
     httpOnly: true,
