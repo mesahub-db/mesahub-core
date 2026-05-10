@@ -1,0 +1,14 @@
+server/cache/memory.go
+  h_7a2f4c8f0473b8 178-181,195,208,226,238,256,268,293,318
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.4.4",
+  "base_commit_sha": "1b437c46bc0fb85e2c5bd2d4725eb9d0149dfdf5",
+  "prompts": {},
+  "humans": {
+    "h_7a2f4c8f0473b8": {
+      "author": "Devendra Pratap Singh <dps.manit@gmail.com>"
+    }
+  }
+}
