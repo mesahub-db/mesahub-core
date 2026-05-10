@@ -301,7 +301,9 @@ EOF
 
     # Next.js static assets — content-hashed filenames, serve directly from
     # disk so Node.js is never involved. Safe to cache for 1 year.
+    # uri strip_prefix removes /_next so Caddy looks up static/... inside the root.
     handle /_next/static/* {
+        uri strip_prefix /_next
         root * /app/dashboard/.next/standalone/.next
         file_server
         header Cache-Control "public, max-age=31536000, immutable"

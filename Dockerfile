@@ -15,6 +15,9 @@ COPY admin/ .
 ARG NEXT_PUBLIC_ENABLE_FILE_STORAGE=true
 ENV NEXT_PUBLIC_ENABLE_FILE_STORAGE=$NEXT_PUBLIC_ENABLE_FILE_STORAGE
 
+ARG NEXT_PUBLIC_API_URL=
+ENV NEXT_PUBLIC_API_URL=$NEXT_PUBLIC_API_URL
+
 RUN pnpm build
 
 # ─────────────────────────────────────────────────────────────────────────────

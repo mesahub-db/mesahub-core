@@ -14,6 +14,7 @@ type Config struct {
 	// Auth
 	AdminToken    string
 	SessionSecret string
+	CookiePrefix  string
 
 	// Redis — cache is Redis-backed when REDIS_URL is set, no-op otherwise.
 	RedisURL string
@@ -41,6 +42,7 @@ func Load() (*Config, error) {
 		DataPath:            strEnv("DATA_PATH", "/data"),
 		AdminToken:          os.Getenv("ADMIN_TOKEN"),
 		SessionSecret:       os.Getenv("SESSION_SECRET"),
+		CookiePrefix:        strEnv("COOKIE_PREFIX", "sqlitedbhub"),
 		RedisURL:            os.Getenv("REDIS_URL"),
 		CORSOrigins:         strEnv("CORS_ALLOWED_ORIGINS", ""),
 		MaxVolumeUsagePct:   intEnv("MAX_VOLUME_USAGE_PERCENT", 85),
