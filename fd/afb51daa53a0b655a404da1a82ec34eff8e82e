@@ -1,0 +1,36 @@
+server/config/config.go
+  s_0329c12d3cb7a7::t_aaf59707de6870 17,45
+admin/src/lib/session.ts
+  s_0329c12d3cb7a7::t_722ddf68b2f2d6 11-12,19
+Dockerfile
+  s_0329c12d3cb7a7::t_5f3f37e20fe32a 18-20
+start.sh
+  s_0329c12d3cb7a7::t_18ea34f3f6a0ad 304,306
+server/auth/session.go
+  s_0329c12d3cb7a7::t_f6f5b224a6a1e9 61,81,85
+  s_0329c12d3cb7a7::t_1acdb970b57d11 47
+server/auth/jwt.go
+  h_7a2f4c8f0473b8 10
+  s_0329c12d3cb7a7::t_b4a01af42691b7 19-23
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.4.4",
+  "base_commit_sha": "fdafb51daa53a0b655a404da1a82ec34eff8e82e",
+  "prompts": {},
+  "humans": {
+    "h_7a2f4c8f0473b8": {
+      "author": "Devendra Pratap Singh <dps.manit@gmail.com>"
+    }
+  },
+  "sessions": {
+    "s_0329c12d3cb7a7": {
+      "agent_id": {
+        "tool": "github-copilot",
+        "id": "b6212e7f-621d-4e15-bf87-1f7bc9edb0c4",
+        "model": "unknown"
+      },
+      "human_author": "Devendra Pratap Singh <dps.manit@gmail.com>"
+    }
+  }
+}
