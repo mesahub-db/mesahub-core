@@ -1,0 +1,19 @@
+.github/copilot-instructions.md
+  s_0329c12d3cb7a7::t_5ae3bc0936b0c9 4-9,11,19-20,38,41,47-48,52-53,60,65-67,92-104,107-109,111,123-124,128,131-132,134-135
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.4.4",
+  "base_commit_sha": "be2db7c67db62b0e17096894e2fa3e3b40549f6a",
+  "prompts": {},
+  "sessions": {
+    "s_0329c12d3cb7a7": {
+      "agent_id": {
+        "tool": "github-copilot",
+        "id": "b6212e7f-621d-4e15-bf87-1f7bc9edb0c4",
+        "model": "unknown"
+      },
+      "human_author": "Devendra Pratap Singh <dps.manit@gmail.com>"
+    }
+  }
+}
