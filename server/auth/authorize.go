@@ -109,6 +109,11 @@ func hasPermission(scopes []string, resourceType, slug, op string) bool {
 	for _, s := range scopes {
 		parts := strings.SplitN(s, ":", 3)
 		switch len(parts) {
+		case 1:
+			// "management" — full data access (same as all:w)
+			if parts[0] == "management" {
+				return true
+			}
 		case 2:
 			// "all:r" or "all:w"
 			if parts[0] == "all" {
