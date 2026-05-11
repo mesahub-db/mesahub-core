@@ -6,8 +6,10 @@ import "./globals.css";
 import { DialogProvider } from "@/components/create-dialog";
 import { ThemeProvider } from "next-themes";
 
+const SITE_TITLE = process.env.ADMIN_TITLE ?? "MesaHub - Admin";
+
 export const metadata: Metadata = {
-  title: "mesahub",
+  title: SITE_TITLE,
   description: "Centralized SQLite storage service for internal Railway workloads",
 };
 
