@@ -482,13 +482,13 @@ function DbList({
               <td className="px-4 py-3">
                 <div className="flex items-center justify-end gap-3">
                   <Link
-                    href={`/db/${db.name}/settings`}
+                    href={`/db/${db.slug}/settings`}
                     className="text-xs text-zinc-500 hover:text-zinc-200 transition-colors"
                   >
                     Settings
                   </Link>
                   <Link
-                    href={`/db/${db.name}`}
+                    href={`/db/${db.slug}`}
                     className="text-xs text-zinc-300 hover:text-white transition-colors font-medium"
                   >
                     Browse →
