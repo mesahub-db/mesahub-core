@@ -1,0 +1,21 @@
+admin/src/app/(admin)/home-client.tsx
+  s_4d3d3102686ab8::t_9ece0caa942a84 485,491
+admin/src/app/(admin)/page.tsx
+  s_4d3d3102686ab8::t_9ece0caa942a84 10
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.4.4",
+  "base_commit_sha": "e7bf29f567dafb24919d2da09f5b2d4c16810db4",
+  "prompts": {},
+  "sessions": {
+    "s_4d3d3102686ab8": {
+      "agent_id": {
+        "tool": "github-copilot",
+        "id": "30b7feb9-c851-4141-aa7a-b53b9be92256",
+        "model": "unknown"
+      },
+      "human_author": "Devendra Pratap Singh <dps.manit@gmail.com>"
+    }
+  }
+}
