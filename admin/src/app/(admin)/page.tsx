@@ -7,6 +7,7 @@ import { HomeClient } from "./home-client";
 export interface DbRecord {
   id: number;
   name: string;
+  slug: string;
   owner: string;
   status: string;
   created_at: string;
