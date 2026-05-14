@@ -146,6 +146,24 @@ CREATE TABLE IF NOT EXISTS schema_migrations (
   name       TEXT PRIMARY KEY,
   applied_at DATETIME DEFAULT CURRENT_TIMESTAMP
 );
+
+CREATE TABLE IF NOT EXISTS usage (
+  id               TEXT    PRIMARY KEY,
+  user_id          TEXT    NOT NULL,
+  db_id            TEXT    NOT NULL DEFAULT '',
+  period_year      INTEGER NOT NULL,
+  period_month     INTEGER NOT NULL,
+  queries_executed INTEGER NOT NULL DEFAULT 0,
+  exec_executed    INTEGER NOT NULL DEFAULT 0,
+  api_calls        INTEGER NOT NULL DEFAULT 0,
+  storage_bytes    INTEGER NOT NULL DEFAULT 0,
+  bucket_bytes     INTEGER NOT NULL DEFAULT 0,
+  calls_success    INTEGER NOT NULL DEFAULT 0,
+  calls_client_err INTEGER NOT NULL DEFAULT 0,
+  calls_server_err INTEGER NOT NULL DEFAULT 0,
+  UNIQUE(user_id, db_id, period_year, period_month)
+);
+CREATE INDEX IF NOT EXISTS idx_usage_user_period ON usage(user_id, db_id, period_year, period_month);
 `
 
 // OpenRegistry opens (or creates) registry.db at dataPath and applies the
