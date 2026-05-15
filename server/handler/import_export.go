@@ -199,6 +199,13 @@ func (h *ImportExportHandler) Import(w http.ResponseWriter, r *http.Request) {
 	// Return the post-import file size so the dashboard can persist it immediately.
 	sizeBytes := sysutil.FileSizeBytes(sysutil.DBPath(h.cfg.DataPath, name))
 
+	// Persist the new size to the registry (fire-and-forget).
+	go func() {
+		if err := h.registry.UpdateDatabaseSize(name, sizeBytes); err != nil {
+			log.Warn().Err(err).Str("db", name).Msg("[import] failed to update size_bytes")
+		}
+	}()
+
 	writeJSON(w, http.StatusOK, map[string]any{
 		"success":       true,
 		"totalImported": totalImported,

@@ -894,6 +894,13 @@ func (r *Registry) DeleteBucket(slug string) error {
 	return err
 }
 
+// UpdateDatabaseSize sets the stored size_bytes for a database to the given value.
+func (r *Registry) UpdateDatabaseSize(slug string, size int64) error {
+	_, err := r.db.Exec(
+		`UPDATE databases SET size_bytes = ? WHERE slug = ?`, size, slug)
+	return err
+}
+
 // UpdateBucketSize increments the stored size_bytes for a bucket.
 func (r *Registry) UpdateBucketSize(slug string, delta int64) error {
 	_, err := r.db.Exec(

@@ -15,6 +15,7 @@ import (
 	"github.com/0xdps/mesahub-core/config"
 	"github.com/0xdps/mesahub-core/db"
 	"github.com/0xdps/mesahub-core/queue"
+	"github.com/0xdps/mesahub-core/sysutil"
 	"github.com/0xdps/mesahub-core/telemetry"
 )
 
@@ -215,6 +216,14 @@ func (h *ExecHandler) execWrite(w http.ResponseWriter, r *http.Request, name, sq
 		ErrorJSON(w, http.StatusBadRequest, qErr.Error())
 		return
 	}
+
+	// Keep size_bytes in the registry up-to-date after every write (fire-and-forget).
+	go func() {
+		size := sysutil.FileSizeBytes(sysutil.DBPath(h.cfg.DataPath, name))
+		if err := h.registry.UpdateDatabaseSize(name, size); err != nil {
+			log.Warn().Err(err).Str("db", name).Msg("[exec] failed to update size_bytes")
+		}
+	}()
 
 	if isReader {
 		h.tel.IncRead(elapsed)
