@@ -94,6 +94,7 @@ func ValidateTemplateKey(ctx context.Context, c cache.Client, keyValue string) (
 	kv := &cache.APIKeyValue{
 		KeyID:  rec.ID,
 		Owner:  rec.Owner,
+		UserID: rec.Owner, // mirror UserID so cloud-auth cache hits work correctly
 		Scopes: scopes,
 	}
 	_ = c.SetAPIKey(ctx, keyHash, *kv, apiKeyTTL)
