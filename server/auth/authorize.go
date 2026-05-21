@@ -185,7 +185,9 @@ func AuthorizeDBWithKey(r *http.Request, cfg *config.Config, c cache.Client, rec
 	if strings.Contains(r.URL.Path, "/exec") {
 		op = "write"
 	}
-	if !hasPermission(kv.Scopes, "db", record.Name, op) {
+	// Check slug first (canonical form per docs/guide), fall back to Name for
+	// backward compat with keys created via the dashboard UI before this fix.
+	if !hasPermission(kv.Scopes, "db", record.Slug, op) && !hasPermission(kv.Scopes, "db", record.Name, op) {
 		return http.StatusForbidden, "This API key does not have access to this database", nil
 	}
 	return 0, "", kv
