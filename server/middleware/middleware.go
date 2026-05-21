@@ -20,7 +20,7 @@ func Logger(next http.Handler) http.Handler {
 		if r.URL.Path == "/api/health" {
 			return
 		}
-		log.Info().
+		log.Debug().
 			Str("method", r.Method).
 			Str("path", r.URL.Path).
 			Int("status", ww.Status()).
