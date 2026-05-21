@@ -1,0 +1,20 @@
+server/handler/exec.go
+  s_643c1389b08894::t_dd93cb2777e65f 28-30
+  s_643c1389b08894::t_06b0051dee9060 188-197,208-209
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.4.11",
+  "base_commit_sha": "f4265d4c4777cb5d5053e1dde60ca1b1e837acf6",
+  "prompts": {},
+  "sessions": {
+    "s_643c1389b08894": {
+      "agent_id": {
+        "tool": "github-copilot",
+        "id": "d2d2cc5b-26d9-4440-b63e-e9a6f0f77299",
+        "model": "gpt-5-mini"
+      },
+      "human_author": "Devendra Pratap Singh <dps.manit@gmail.com>"
+    }
+  }
+}
