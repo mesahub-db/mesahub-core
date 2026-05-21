@@ -25,8 +25,9 @@ const rateLimitPerMinute = 600
 
 // SQL classifiers (case-insensitive prefix match).
 var (
-	readSQLPat  = regexp.MustCompile(`(?i)^\s*(SELECT|WITH|VALUES|EXPLAIN|PRAGMA\s+\w+\s*([^=]|$))`)
-	writeSQLPat = regexp.MustCompile(`(?i)^\s*(INSERT|UPDATE|DELETE|DROP|ALTER|CREATE|ATTACH|DETACH|REPLACE|UPSERT|PRAGMA\s+\w+\s*=)`)
+	readSQLPat      = regexp.MustCompile(`(?i)^\s*(SELECT|WITH|VALUES|EXPLAIN|PRAGMA\s+\w+\s*([^=]|$))`)
+	writeSQLPat     = regexp.MustCompile(`(?i)^\s*(INSERT|UPDATE|DELETE|DROP|ALTER|CREATE|ATTACH|DETACH|REPLACE|UPSERT|PRAGMA\s+\w+\s*=)`)
+	returningSQLPat = regexp.MustCompile(`(?i)\bRETURNING\b`)
 )
 
 // classifySQL classifies a potentially multi-statement SQL batch.
@@ -184,9 +185,16 @@ func (h *ExecHandler) execWrite(w http.ResponseWriter, r *http.Request, name, sq
 		start := time.Now()
 		args := anySliceToDriverValues(bindings)
 
-		// Try Query first — handles RETURNING clauses and SELECT-like writes.
-		rows, queryErr := sqlDB.QueryContext(r.Context(), sqlStr, args...)
-		if queryErr == nil {
+		// If the SQL contains a RETURNING clause, use QueryContext so we can
+		// read back the returned rows.  Otherwise, use ExecContext directly to
+		// avoid double-execution: QueryContext commits the write in auto-commit
+		// mode and would leave ExecContext running the same statement a second
+		// time, corrupting row counts and inserting duplicates.
+		if returningSQLPat.MatchString(sqlStr) {
+			rows, queryErr := sqlDB.QueryContext(r.Context(), sqlStr, args...)
+			if queryErr != nil {
+				return queryErr
+			}
 			cols, _ := rows.Columns()
 			if len(cols) > 0 {
 				isReader = true
@@ -197,6 +205,8 @@ func (h *ExecHandler) execWrite(w http.ResponseWriter, r *http.Request, name, sq
 				return scanErr
 			}
 			rows.Close()
+			// RETURNING produced no columns — fall through to ExecContext so
+			// rowsAffected / lastInsertRowid are still populated correctly.
 		}
 
 		// Pure write: INSERT / UPDATE / DELETE without RETURNING.
