@@ -1,0 +1,24 @@
+server/auth/authorize_test.go
+  s_9821ea64917568::t_776b094824dde2 1-242
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.4.11",
+  "base_commit_sha": "6eb2e692bb15bac57adf3e788bda9cce515a00f4",
+  "prompts": {},
+  "humans": {
+    "h_7a2f4c8f0473b8": {
+      "author": "Devendra Pratap Singh <dps.manit@gmail.com>"
+    }
+  },
+  "sessions": {
+    "s_9821ea64917568": {
+      "agent_id": {
+        "tool": "github-copilot",
+        "id": "94628f44-a2cc-4478-b99f-f93338c04d06",
+        "model": "gpt-5-mini"
+      },
+      "human_author": "Devendra Pratap Singh <dps.manit@gmail.com>"
+    }
+  }
+}
