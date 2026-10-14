@@ -1,0 +1,19 @@
+server/go.mod
+  s_ebfb12b8acac88::t_eb5d51a8e4e012 3
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "9811e5bb205962f006ddf3a1e508fff7ca9cc67e",
+  "prompts": {},
+  "sessions": {
+    "s_ebfb12b8acac88": {
+      "agent_id": {
+        "tool": "cursor",
+        "id": "ef1639cd-4848-48ad-97d8-a8df6a0a9f99",
+        "model": "claude-sonnet-4-5"
+      },
+      "human_author": "Devendra Pratap <dps.manit@gmail.com>"
+    }
+  }
+}
