@@ -28,6 +28,10 @@ FROM golang:1.23-alpine AS go-builder
 RUN apk add --no-cache gcc musl-dev
 
 WORKDIR /app/server
+
+# Disable workspace mode since we're building core in isolation
+ENV GOWORK=off
+
 COPY core/server/go.mod core/server/go.sum ./
 RUN go mod download
 
