@@ -1,0 +1,20 @@
+Dockerfile
+  s_ebfb12b8acac88::t_c43c591ee862ca 32-33
+  s_ebfb12b8acac88::t_ffdfc067510665 31,34
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "0c849cb96def4645ad47ee031592cd522c51e5ef",
+  "prompts": {},
+  "sessions": {
+    "s_ebfb12b8acac88": {
+      "agent_id": {
+        "tool": "cursor",
+        "id": "ef1639cd-4848-48ad-97d8-a8df6a0a9f99",
+        "model": "claude-sonnet-4-5"
+      },
+      "human_author": "Devendra Pratap <dps.manit@gmail.com>"
+    }
+  }
+}
