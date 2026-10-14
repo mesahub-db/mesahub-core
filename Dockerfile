@@ -6,10 +6,10 @@ FROM node:22-alpine AS ui-builder
 RUN apk add --no-cache python3 make g++
 
 WORKDIR /app/admin
-COPY admin/package.json admin/pnpm-lock.yaml admin/pnpm-workspace.yaml ./
+COPY core/admin/package.json core/admin/pnpm-lock.yaml core/admin/pnpm-workspace.yaml ./
 RUN npm install -g pnpm@11.0.8 && pnpm install --frozen-lockfile
 
-COPY admin/ .
+COPY core/admin/ .
 
 # Env vars baked into the JS bundle at build time by Next.js
 ARG NEXT_PUBLIC_ENABLE_FILE_STORAGE=true
@@ -28,10 +28,10 @@ FROM golang:1.23-alpine AS go-builder
 RUN apk add --no-cache gcc musl-dev
 
 WORKDIR /app/server
-COPY server/go.mod server/go.sum ./
+COPY core/server/go.mod core/server/go.sum ./
 RUN go mod download
 
-COPY server/ .
+COPY core/server/ .
 RUN CGO_ENABLED=1 GOOS=linux go build -o mesahub-server ./cmd/server
 
 # ─────────────────────────────────────────────────────────────────────────────
@@ -45,10 +45,10 @@ RUN apk add --no-cache curl python3 make g++ && \
     npm install -g pnpm@11.0.8
 
 WORKDIR /app
-COPY admin/package.json admin/pnpm-lock.yaml ./
+COPY core/admin/package.json core/admin/pnpm-lock.yaml ./
 RUN npm install -g pnpm@11.0.8 && pnpm install --frozen-lockfile
 
-COPY admin/ .
+COPY core/admin/ .
 
 ENV NODE_ENV=development
 ENV NEXT_TELEMETRY_DISABLED=1
@@ -85,11 +85,11 @@ RUN mkdir -p /data/files/blobs
 # ── Go binary ────────────────────────────────────────────────────────────────
 COPY --from=go-builder /app/server/mesahub-server ./server/mesahub-server
 
-COPY admin/package.json admin/pnpm-lock.yaml ./dashboard/
+COPY core/admin/package.json core/admin/pnpm-lock.yaml ./dashboard/
 RUN npm install -g pnpm@11.0.8 && cd dashboard && pnpm install
 
-COPY admin/ ./dashboard/
-COPY start.sh /app/start.sh
+COPY core/admin/ ./dashboard/
+COPY core/start.sh /app/start.sh
 RUN chmod +x /app/start.sh
 
 EXPOSE 80
@@ -123,10 +123,10 @@ COPY --from=ui-builder /app/admin/public ./dashboard/.next/standalone/public
 COPY --from=go-builder /app/server/mesahub-server ./server/mesahub-server
 
 # ── supervisord config ───────────────────────────────────────────────────────
-COPY supervisord.conf /etc/supervisor/conf.d/mesahub.conf
+COPY core/supervisord.conf /etc/supervisor/conf.d/mesahub.conf
 
 # ── Caddy startup script (generates Caddyfile dynamically) ──────────────────
-COPY start.sh /app/start.sh
+COPY core/start.sh /app/start.sh
 RUN chmod +x /app/start.sh
 
 EXPOSE 80
