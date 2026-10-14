@@ -1,13 +1,13 @@
 # ─────────────────────────────────────────────────────────────────────────────
 # Stage 1: Build the Next.js admin UI (standalone output)
 # ─────────────────────────────────────────────────────────────────────────────
-FROM node:24-alpine AS ui-builder
+FROM node:22-alpine AS ui-builder
 
 RUN apk add --no-cache python3 make g++
 
 WORKDIR /app/admin
 COPY admin/package.json admin/pnpm-lock.yaml admin/pnpm-workspace.yaml ./
-RUN npm install -g pnpm && pnpm install --no-frozen-lockfile
+RUN npm install -g pnpm@11.0.8 && pnpm install --frozen-lockfile
 
 COPY admin/ .
 
@@ -23,7 +23,7 @@ RUN pnpm build
 # ─────────────────────────────────────────────────────────────────────────────
 # Stage 2: Build the Go server binary
 # ─────────────────────────────────────────────────────────────────────────────
-FROM golang:1.24-alpine AS go-builder
+FROM golang:1.23-alpine AS go-builder
 
 RUN apk add --no-cache gcc musl-dev
 
@@ -39,14 +39,14 @@ RUN CGO_ENABLED=1 GOOS=linux go build -o mesahub-server ./cmd/server
 # Used by docker-compose.saas.yml / docker-compose.full.yml where the Go API
 # runs as a separate container. Supports bind-mount HMR.
 # ─────────────────────────────────────────────────────────────────────────────
-FROM node:24-alpine AS dashboard-dev
+FROM node:22-alpine AS dashboard-dev
 
 RUN apk add --no-cache curl python3 make g++ && \
-    npm install -g pnpm
+    npm install -g pnpm@11.0.8
 
 WORKDIR /app
 COPY admin/package.json admin/pnpm-lock.yaml ./
-RUN npm install -g pnpm && pnpm install --frozen-lockfile
+RUN npm install -g pnpm@11.0.8 && pnpm install --frozen-lockfile
 
 COPY admin/ .
 
@@ -86,7 +86,7 @@ RUN mkdir -p /data/files/blobs
 COPY --from=go-builder /app/server/mesahub-server ./server/mesahub-server
 
 COPY admin/package.json admin/pnpm-lock.yaml ./dashboard/
-RUN npm install -g pnpm && cd dashboard && pnpm install
+RUN npm install -g pnpm@11.0.8 && cd dashboard && pnpm install
 
 COPY admin/ ./dashboard/
 COPY start.sh /app/start.sh
