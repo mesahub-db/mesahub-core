@@ -1,0 +1,21 @@
+server/go.mod
+  s_ebfb12b8acac88::t_06fa34981657bf 3,22
+server/go.sum
+  s_ebfb12b8acac88::t_b7adf902d9f9b3 42-43
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "0b1c7711678a00380ca5f5fef72df11ae7be554d",
+  "prompts": {},
+  "sessions": {
+    "s_ebfb12b8acac88": {
+      "agent_id": {
+        "tool": "cursor",
+        "id": "ef1639cd-4848-48ad-97d8-a8df6a0a9f99",
+        "model": "claude-sonnet-4-5"
+      },
+      "human_author": "Devendra Pratap <dps.manit@gmail.com>"
+    }
+  }
+}
