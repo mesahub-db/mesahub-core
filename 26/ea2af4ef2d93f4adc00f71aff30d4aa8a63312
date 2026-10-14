@@ -1,0 +1,14 @@
+admin/src/app/robots.ts
+  h_d60f3499e5a1c3 1-7
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.3.4",
+  "base_commit_sha": "26ea2af4ef2d93f4adc00f71aff30d4aa8a63312",
+  "prompts": {},
+  "humans": {
+    "h_d60f3499e5a1c3": {
+      "author": "Devendra Pratap Singh"
+    }
+  }
+}

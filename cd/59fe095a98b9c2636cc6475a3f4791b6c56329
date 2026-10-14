@@ -1,0 +1,27 @@
+packages/sqlite-hub-client/src/database.ts
+  2485273daa8b0521 36-51,198-268
+packages/sqlite-hub-client/src/index.ts
+  2485273daa8b0521 3
+packages/sqlite-hub-client/README.md
+  2485273daa8b0521 76-95,191-219,221-229
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.7",
+  "base_commit_sha": "cd59fe095a98b9c2636cc6475a3f4791b6c56329",
+  "prompts": {
+    "2485273daa8b0521": {
+      "agent_id": {
+        "tool": "github-copilot",
+        "id": "6799d995-357e-457c-a710-bc5813c4453a",
+        "model": "copilot/claude-sonnet-4.6"
+      },
+      "human_author": "Devendra Pratap Singh <dps.manir@gmail.com>",
+      "messages": [],
+      "total_additions": 152,
+      "total_deletions": 1,
+      "accepted_lines": 152,
+      "overriden_lines": 0
+    }
+  }
+}

@@ -1,0 +1,22 @@
+server/internal/db/registry.go
+  h_d60f3499e5a1c3 72-76,144-161
+server/internal/auth/uuid.go
+  h_d60f3499e5a1c3 24
+server/internal/migrate/strip_prefixes.go
+  h_d60f3499e5a1c3 1-443
+server/cmd/server/main.go
+  h_d60f3499e5a1c3 25,82-87
+server/internal/control/db.go
+  h_d60f3499e5a1c3 57,72
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.3.0",
+  "base_commit_sha": "8eeecd41b2eea668e40499c15fcb16671e08f5f8",
+  "prompts": {},
+  "humans": {
+    "h_d60f3499e5a1c3": {
+      "author": "Devendra Pratap Singh"
+    }
+  }
+}

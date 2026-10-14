@@ -1,0 +1,16 @@
+.github/workflows/docker-release.yaml
+  h_d60f3499e5a1c3 1-73
+.github/workflows/check.yaml
+  h_d60f3499e5a1c3 18
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.3.4",
+  "base_commit_sha": "e0dab670bc49f0b8e78a533b5f5d10034e1a179a",
+  "prompts": {},
+  "humans": {
+    "h_d60f3499e5a1c3": {
+      "author": "Devendra Pratap Singh"
+    }
+  }
+}

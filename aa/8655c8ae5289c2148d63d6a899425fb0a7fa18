@@ -1,0 +1,16 @@
+start.sh
+  h_d60f3499e5a1c3 268-275
+admin/next.config.js
+  h_d60f3499e5a1c3 19-32
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.3.4",
+  "base_commit_sha": "aa8655c8ae5289c2148d63d6a899425fb0a7fa18",
+  "prompts": {},
+  "humans": {
+    "h_d60f3499e5a1c3": {
+      "author": "Devendra Pratap Singh"
+    }
+  }
+}

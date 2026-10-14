@@ -1,0 +1,25 @@
+packages/sqlite-hub-client/src/adapters/http.ts
+  7236f2eb49da25a8 48-50,52-53,57
+packages/sqlite-hub-client/src/database.ts
+  7236f2eb49da25a8 56-57
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.7",
+  "base_commit_sha": "f7db9116cf39cd8e34531a2b6001168931c608d2",
+  "prompts": {
+    "7236f2eb49da25a8": {
+      "agent_id": {
+        "tool": "github-copilot",
+        "id": "02227c12-67a9-4e4b-8f00-8f490f8f4bf9",
+        "model": "copilot/claude-sonnet-4.6"
+      },
+      "human_author": "Devendra Pratap Singh <dps.manir@gmail.com>",
+      "messages": [],
+      "total_additions": 0,
+      "total_deletions": 0,
+      "accepted_lines": 8,
+      "overriden_lines": 0
+    }
+  }
+}

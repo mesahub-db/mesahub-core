@@ -1,0 +1,26 @@
+admin/package.json
+  h_7a2f4c8f0473b8 6,19-21
+admin/pnpm-workspace.yaml
+  s_07d6b831b93387::t_b4bac513eb377a 1-4
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.4.1",
+  "base_commit_sha": "dbb2155010d8a1fefa2dcfab6a9d60fb5cf49710",
+  "prompts": {},
+  "humans": {
+    "h_7a2f4c8f0473b8": {
+      "author": "Devendra Pratap Singh <dps.manit@gmail.com>"
+    }
+  },
+  "sessions": {
+    "s_07d6b831b93387": {
+      "agent_id": {
+        "tool": "github-copilot",
+        "id": "5cb1bb20-7239-4e0c-85a4-35dad851a7a5",
+        "model": "unknown"
+      },
+      "human_author": "Devendra Pratap Singh <dps.manit@gmail.com>"
+    }
+  }
+}

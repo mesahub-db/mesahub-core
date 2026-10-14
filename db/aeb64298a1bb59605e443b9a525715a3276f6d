@@ -1,0 +1,38 @@
+src/app/api/db/[name]/files/[id]/route.ts
+  fde5b8fc2b23361a 17-28,52-54,81,87-88,92-95,107-117,119,123
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.19",
+  "base_commit_sha": "dbaeb64298a1bb59605e443b9a525715a3276f6d",
+  "prompts": {
+    "5daf792ef38ec4fa": {
+      "agent_id": {
+        "tool": "github-copilot",
+        "id": "e321bd58-8c5e-4265-945d-ce8c5b2fb023",
+        "model": "copilot/auto"
+      },
+      "human_author": "Devendra Pratap Singh <dps.manir@gmail.com>",
+      "messages": [],
+      "total_additions": 0,
+      "total_deletions": 0,
+      "accepted_lines": 1,
+      "overriden_lines": 0,
+      "messages_url": "https://usegitai.com/cas/a8a311e2b4534f22118361b8ecfe2c1ea68a1f4f8a10bbcc9b5e96ea37d42cc5"
+    },
+    "fde5b8fc2b23361a": {
+      "agent_id": {
+        "tool": "github-copilot",
+        "id": "cd09ad96-32d6-42fb-b942-7213339f4bd2",
+        "model": "copilot/claude-sonnet-4.6"
+      },
+      "human_author": "Devendra Pratap Singh <dps.manit@gmail.com>",
+      "messages": [],
+      "total_additions": 35,
+      "total_deletions": 6,
+      "accepted_lines": 35,
+      "overriden_lines": 0,
+      "messages_url": "https://usegitai.com/cas/a509a827fc8c8be7b6a14dd25dca3e0e6323e3d40487695d3a538eed7a9a12b7"
+    }
+  }
+}

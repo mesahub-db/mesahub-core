@@ -1,0 +1,50 @@
+admin/src/app/login/page.tsx
+  h_d60f3499e5a1c3 43
+justfile
+  h_d60f3499e5a1c3 1
+admin/src/middleware.ts
+  h_d60f3499e5a1c3 25
+README.md
+  h_d60f3499e5a1c3 1
+admin/src/app/(admin)/db/[name]/files/page.tsx
+  h_d60f3499e5a1c3 134
+start.sh
+  h_d60f3499e5a1c3 40,133
+.github/copilot-instructions.md
+  h_d60f3499e5a1c3 43,48
+admin/src/lib/logger.ts
+  h_d60f3499e5a1c3 2
+admin/src/components/gui/sidebar-tab.tsx
+  h_d60f3499e5a1c3 57,78
+docker-compose.yml
+  h_d60f3499e5a1c3 63
+admin/src/app/api/openapi/route.ts
+  h_d60f3499e5a1c3 10,13
+server/middleware/middleware.go
+  h_d60f3499e5a1c3 38-39,41
+server/cmd/server/main.go
+  h_d60f3499e5a1c3 55
+admin/src/app/(admin)/layout.tsx
+  h_d60f3499e5a1c3 10
+admin/src/lib/go-api.ts
+  h_d60f3499e5a1c3 31,40
+server/auth/middleware.go
+  h_d60f3499e5a1c3 14
+admin/tests/e2e-docker-test.sh
+  h_d60f3499e5a1c3 4,30,98,311
+server/auth/authorize.go
+  h_d60f3499e5a1c3 25,29,153
+admin/src/app/(admin)/buckets/[name]/files/page.tsx
+  h_d60f3499e5a1c3 134
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.3.4",
+  "base_commit_sha": "42699e68ac5ec7e4074769e2532024a54a026582",
+  "prompts": {},
+  "humans": {
+    "h_d60f3499e5a1c3": {
+      "author": "Devendra Pratap Singh"
+    }
+  }
+}

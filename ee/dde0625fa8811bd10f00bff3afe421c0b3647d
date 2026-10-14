@@ -1,0 +1,23 @@
+docs/CONCURRENCY-AND-WRITE-HARDENING-PLAN.md
+  ebfab95fe51ce3fe 1-325
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.8",
+  "base_commit_sha": "eedde0625fa8811bd10f00bff3afe421c0b3647d",
+  "prompts": {
+    "ebfab95fe51ce3fe": {
+      "agent_id": {
+        "tool": "github-copilot",
+        "id": "193787d0-33bc-4d2e-80b9-bf40f2b8e2ae",
+        "model": "copilot/auto"
+      },
+      "human_author": "Devendra Pratap Singh <dps.manir@gmail.com>",
+      "messages": [],
+      "total_additions": 325,
+      "total_deletions": 0,
+      "accepted_lines": 325,
+      "overriden_lines": 0
+    }
+  }
+}

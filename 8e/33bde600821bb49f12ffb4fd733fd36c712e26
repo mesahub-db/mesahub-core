@@ -1,0 +1,21 @@
+admin/pnpm-workspace.yaml
+  s_e78f04a727954e::t_a3b83cb506fd5e 2-4
+Dockerfile
+  s_e78f04a727954e::t_a3b83cb506fd5e 9-10
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.4.4",
+  "base_commit_sha": "8e33bde600821bb49f12ffb4fd733fd36c712e26",
+  "prompts": {},
+  "sessions": {
+    "s_e78f04a727954e": {
+      "agent_id": {
+        "tool": "github-copilot",
+        "id": "f58eb08c-64af-45a6-a5bd-e2682af13ce4",
+        "model": "unknown"
+      },
+      "human_author": "Devendra Pratap Singh <dps.manit@gmail.com>"
+    }
+  }
+}

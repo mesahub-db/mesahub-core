@@ -1,0 +1,29 @@
+server/handler/apikeys.go
+  s_ef2d8fd6287796::t_a24086f39f2fb3 59
+server/db/registry.go
+  s_ef2d8fd6287796::t_a24086f39f2fb3 784
+server/handler/db.go
+  s_ef2d8fd6287796::t_a24086f39f2fb3 104
+server/files/storage.go
+  s_ef2d8fd6287796::t_a24086f39f2fb3 254
+server/handler/bucket_admin.go
+  s_ef2d8fd6287796::t_a24086f39f2fb3 99
+server/filetoken/filetoken.go
+  s_ef2d8fd6287796::t_35a8e9334b9c36 21-22,246-247,251,253
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.4.1",
+  "base_commit_sha": "2bc29ffcf31f9f01a6ebceb35e2fb8d131511cb7",
+  "prompts": {},
+  "sessions": {
+    "s_ef2d8fd6287796": {
+      "agent_id": {
+        "tool": "github-copilot",
+        "id": "b67b7245-ce7f-4a81-ab78-e222c15aeb97",
+        "model": "unknown"
+      },
+      "human_author": "Devendra Pratap Singh <dps.manit@gmail.com>"
+    }
+  }
+}

@@ -1,0 +1,38 @@
+server/internal/handler/testenv_test.go
+  h_d60f3499e5a1c3 1-144
+server/internal/handler/query_handler_test.go
+  h_d60f3499e5a1c3 1-322
+server/internal/handler/system_handler_test.go
+  h_d60f3499e5a1c3 1-173
+server/internal/handler/internal_handler_test.go
+  h_d60f3499e5a1c3 1-101
+server/internal/handler/classify_test.go
+  h_d60f3499e5a1c3 1-192
+server/internal/handler/exec_handler_test.go
+  h_d60f3499e5a1c3 1-376
+start.sh
+  h_d60f3499e5a1c3 77-79,225
+server/internal/handler/maintenance_handler_test.go
+  h_d60f3499e5a1c3 1-101
+server/cmd/server/main.go
+  h_d60f3499e5a1c3 121,171-175,216-220
+server/internal/handler/rest_test.go
+  h_d60f3499e5a1c3 1-771
+server/internal/handler/handler_test.go
+  h_d60f3499e5a1c3 1-106
+server/internal/handler/db_handler_test.go
+  h_d60f3499e5a1c3 1-534
+server/internal/handler/rest.go
+  h_d60f3499e5a1c3 1-650
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.3.0",
+  "base_commit_sha": "46cacad2eb5a72a050c9474d05b9a0da36b2d54a",
+  "prompts": {},
+  "humans": {
+    "h_d60f3499e5a1c3": {
+      "author": "Devendra Pratap Singh"
+    }
+  }
+}

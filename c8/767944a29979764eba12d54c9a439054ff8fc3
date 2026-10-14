@@ -1,0 +1,19 @@
+Dockerfile
+  s_ef2d8fd6287796::t_e974de128297bc 10,42,46
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.4.1",
+  "base_commit_sha": "c8767944a29979764eba12d54c9a439054ff8fc3",
+  "prompts": {},
+  "sessions": {
+    "s_ef2d8fd6287796": {
+      "agent_id": {
+        "tool": "github-copilot",
+        "id": "b67b7245-ce7f-4a81-ab78-e222c15aeb97",
+        "model": "unknown"
+      },
+      "human_author": "Devendra Pratap Singh <dps.manit@gmail.com>"
+    }
+  }
+}
