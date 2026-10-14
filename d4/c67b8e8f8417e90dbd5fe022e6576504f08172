@@ -1,0 +1,21 @@
+server/go.mod
+  s_ebfb12b8acac88::t_9ee99618473675 3
+Dockerfile
+  s_ebfb12b8acac88::t_9ee99618473675 4,10,26,42,45,49,89
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "d4c67b8e8f8417e90dbd5fe022e6576504f08172",
+  "prompts": {},
+  "sessions": {
+    "s_ebfb12b8acac88": {
+      "agent_id": {
+        "tool": "cursor",
+        "id": "ef1639cd-4848-48ad-97d8-a8df6a0a9f99",
+        "model": "claude-sonnet-4-5"
+      },
+      "human_author": "Devendra Pratap <dps.manit@gmail.com>"
+    }
+  }
+}
