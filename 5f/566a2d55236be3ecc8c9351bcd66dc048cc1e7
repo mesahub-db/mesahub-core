@@ -1,0 +1,14 @@
+admin/package.json
+  h_d60f3499e5a1c3 64
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.3.2",
+  "base_commit_sha": "5f566a2d55236be3ecc8c9351bcd66dc048cc1e7",
+  "prompts": {},
+  "humans": {
+    "h_d60f3499e5a1c3": {
+      "author": "Devendra Pratap Singh"
+    }
+  }
+}
